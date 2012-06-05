@@ -1,0 +1,31 @@
+<h1>Events</h1>
+
+<table>
+  <tr>
+    <th>Date</th>
+    <th>Start Time</th>
+    <th>SIG</th>
+    <th>Title</th>
+    <th>Location</th>
+    <th/>
+  </tr>
+ 
+<% @resources.each do |resource| %>
+  <tr>
+    <td><%= resource.date %></td>
+    <td><%= resource.start %></td>
+    <td><%= resource.sig.name %></td>
+    <td><%= resource.title %></td>
+    <td><%= resource.location.name %></td>
+    <td><%= link_to 'Edit', edit_event_path(resource) %></td>
+  </tr>
+<% end %>
+  <tr>
+    <td><%= link_to 'New Event', new_event_path %></td>
+    <td/>
+    <td/>
+    <td/>
+    <td/>
+    <td/>
+  </tr>
+</table>

@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  title: MyString
+  type: 1
+  description: MyString
+  date: 2012-06-03
+  start: 2012-06-03 17:11:41
+  end: 2012-06-03 17:11:41
+  location: 1
+  capacity: 1
+  food_sponsor: MyString
+  speaker: MyString
+  speaker_bio: MyString
+  special_instructions: MyString
+
+two:
+  title: MyString
+  type: 1
+  description: MyString
+  date: 2012-06-03
+  start: 2012-06-03 17:11:41
+  end: 2012-06-03 17:11:41
+  location: 1
+  capacity: 1
+  food_sponsor: MyString
+  speaker: MyString
+  speaker_bio: MyString
+  special_instructions: MyString

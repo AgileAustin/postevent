@@ -1,0 +1,29 @@
+<%= form_for @resource do |f| %>
+  <% if @resource.errors.any? %>
+    <div class="error_messages">
+      <h2>Form is invalid</h2>
+      <ul>
+        <% for message in @resource.errors.full_messages %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <p>
+    <%= f.label :name %>*<br />
+    <%= f.text_field :name, :size => 40, :maxlength => 255  %>
+  </p>
+  <p>
+    <%= f.label :email %><br />
+    <%= f.text_field :email, :size => 40, :maxlength => 255  %>
+  </p>
+  <p>
+    <%= f.label :google_group %><br />
+    <%= f.text_field :google_group, :size => 40, :maxlength => 255  %>
+  </p>
+  <p class="button"><%= f.submit %></p>
+<% end %>
+
+<script type="text/javascript">
+	focusField('sig_name');
+</script>

@@ -1,0 +1,65 @@
+<%= form_for @resource do |f| %>
+  <% if @resource.errors.any? %>
+    <div class="error_messages">
+      <h2>Form is invalid</h2>
+      <ul>
+        <% for message in @resource.errors.full_messages %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <p>
+    <%= f.label :title %>*<br />
+    <%= f.text_field :title, :maxlength => 255, :size => 40 %>
+  </p>
+  <p>
+    <%= f.label :sig_id %>*<br />
+    <%= f.collection_select :sig_id, Sig.all, :id, :name %>
+  </p>
+  <p>
+    <%= f.label :description %>*<br />
+    <%= f.text_area :description, :size => "80x10", :maxlength => 65536 %>
+  </p>
+  <p>
+    <%= f.label :date %>*<br />
+    <%= f.date_select :date %>
+  </p>
+  <p>
+    <%= f.label :start %>*<br />
+    <%= f.time_select :start %>
+  </p>
+  <p>
+    <%= f.label :end %>*<br />
+    <%= f.time_select :end %>
+  </p>
+  <p>
+    <%= f.label :location %>*<br />
+    <%= f.collection_select :location_id, Location.all, :id, :name %>
+  </p>
+  <p>
+    <%= f.label :capacity %>*<br />
+    <%= f.text_field :capacity, :maxlength => 255, :size => 3, :onkeypress => "return enforceIntegersOnly(event)" %>
+  </p>
+  <p>
+    <%= f.label :food_sponsor %>*<br />
+    <%= f.text_field :food_sponsor, :maxlength => 255, :size => 40 %>
+  </p>
+  <p>
+    <%= f.label :speaker %><br />
+    <%= f.text_field :speaker, :maxlength => 255, :size => 40 %>
+  </p>
+  <p>
+    <%= f.label :speaker_bio %><br />
+    <%= f.text_area :speaker_bio, :size => "80x10", :maxlength => 65536 %>
+  </p>
+  <p>
+    <%= f.label :special_instructions %><br />
+    <%= f.text_area :special_instructions, :size => "80x10", :maxlength => 65536 %>
+  </p>
+  <p class="button"><%= f.submit %></p>
+<% end %>
+
+<script type="text/javascript">
+	focusField('event_title');
+</script>
