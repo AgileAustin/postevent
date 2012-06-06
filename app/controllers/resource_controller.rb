@@ -20,7 +20,7 @@ class ResourceController < ApplicationController
   end
 
   def new
-    @resource = resource_class.new
+    @resource = new_resource
  
     respond_to do |format|
       format.html  # new.html.erb
@@ -37,10 +37,12 @@ class ResourceController < ApplicationController
         format.html  { redirect_to(:action => "new") }
         format.json  { render :json => @resource,
                       :status => :created, :location => @resource }
+        true
       else
         format.html  { render :action => "new" }
         format.json  { render :json => @resource.errors,
                       :status => :unprocessable_entity }
+        false
       end
     end
   end
@@ -85,6 +87,10 @@ class ResourceController < ApplicationController
 
 private
   
+  def new_resource
+    resource_class.new
+  end
+
   def validate_delete(resource)
     nil
   end

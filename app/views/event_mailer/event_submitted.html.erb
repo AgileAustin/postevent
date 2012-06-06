@@ -1,0 +1,76 @@
+Posted by: <%= @event.user.email %><br/>
+<br/>
+<b><%= link_to 'Eventbrite', 'http://eventbrite.com' %></b><br/>
+<br/>
+<b>Event Title:</b> <%= @event.sig.name %> - <%= @event.title %><br/>
+<br/>
+<b>Venue Name:</b> <%= @event.location.name %><br/>
+<br/>
+<b>Street Address:</b> <%= @event.location.address %><br/>
+<br/>
+<b>Date & Time:</b><br/>
+<ul>
+<li><b>Event Starts:</b> <%= @date %> <%= @start %></li>
+<li><b>Event Ends:</b> <%= @date %> <%= @end %></li>
+</ul>
+<b>Event Details:</b><br/>
+<br/>
+<b>This month's topic: "<%= @event.title %>"</b><br/>
+<br/>
+<%= @event.description %><br/>
+<% if !@event.speaker.strip.empty? %>
+<br/>
+<b>Speaker: <%= @event.speaker %></b><br/>
+<% if !@event.speaker_bio.strip.empty? %>
+<br/>
+<%= @event.speaker_bio %><br/>
+<% end %>
+<% end %>
+<br/>
+<b><u><%= @event.sig.name %> Info:</u></b><br/>
+<ul>
+<% if !@event.sig.google_group.strip.empty? %>
+<li>More information and communication may be found at the SIG's Google Group: <%= link_to @event.sig.google_group, @event.sig.google_group %>.</li>
+<% end %>
+<li>Food and Drink will be provided courtesy of <%= @event.food_sponsor %>.</li>
+</ul>
+<% if !@event.location.directions.strip.empty? %>
+<b><u>Directions and Parking Info:</u></b><br/>
+<br/>
+<%= @event.location.directions %><br/>
+<% end %>
+<br/>
+<b>Seating is limited!</b><br/>
+<br/>
+Please make sure that you are able to attend this session.  Seating is limited and on a first-come, first-served basis.  We want to give everyone the opportunity to attend, so please only sign up if you are committed to attending.<br/>
+<% if !@event.sig.email.strip.empty? %>
+<br/>
+For more information/questions, please send email to: <%= @event.sig.email %>.<br/>
+<% end %>
+<br/>
+<b>Tickets:</b> <%= @event.capacity %><br/>
+<br/>
+<br/>
+<b><%= link_to 'WordPress', Rails.configuration.blog_url %> / <%= link_to 'LinkedIn', 'http://linkedin.com' %> / <%= link_to 'Gmail Calendar', Rails.configuration.calendar_url %></b><br/>
+<br/>
+<%= @event.sig.name %> - <%= @event.title %><br/>
+<br/>
+<%= @event.description %><br/>
+<br/>
+Date/Time: <%= @date %> <%= @start %> - <%= @end %><br/>
+<br/>
+Venue: <%= @event.location.name %>, <%= @event.location.address %><br/>
+<br/>
+To Register (and for more info): Eventbrite URL.<br/>
+<br/>
+<br/>
+<b><%= link_to 'Twitter', 'http://twitter.com' %></b><br/>
+<br/>
+<%= @event.sig.name %> - <%= @event.title %> - <%= @date %> - Eventbrite URL<br/>
+<br/>
+<br/>
+<% if !@event.special_instructions.strip.empty? %>
+<b>Special Instructions</b><br/>
+<br/>
+<%= @event.special_instructions %><br/>
+<% end %>

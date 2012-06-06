@@ -64,4 +64,12 @@ Postevent::Application.configure do
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
+  
+  # Application specific configuration
+  config.email_contact = "noreply@sample.com"
+  config.organization = "postevent"
+  config.post_url = "http://www.postevent.com"
+  config.blog_url = "http://blog.postevent.com"
+  config.calendar_url = "http://calendar.postevent.com"
+  config.default_food_sponsor = "Our Sponsor"
 end

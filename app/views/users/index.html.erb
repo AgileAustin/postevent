@@ -9,7 +9,7 @@
 <% @resources.each do |resource| %>
   <tr>
     <td><%= resource.email %></td>
-    <td><%= link_to 'Edit', edit_user_path(resource) %> <%= link_to 'Delete', resource, :confirm => 'Are you sure?', :method => :delete if resource.events.empty? %></td>
+    <td><%= link_to 'Edit', edit_user_path(resource) if resource == current_user %> <%= link_to 'Delete', resource, :confirm => 'Are you sure?', :method => :delete if resource.events.empty? && resource != current_user %></td>
   </tr>
 <% end %>
   <tr>

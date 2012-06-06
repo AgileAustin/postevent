@@ -34,4 +34,12 @@ Postevent::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+  
+  # Application specific configuration
+  config.email_contact = "noreply@sample.com"
+  config.organization = "postevent"
+  config.post_url = "http://www.postevent.com"
+  config.blog_url = "http://blog.postevent.com"
+  config.calendar_url = "http://calendar.postevent.com"
+  config.default_food_sponsor = "Our Sponsor"
 end

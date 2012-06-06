@@ -27,11 +27,11 @@
   </p>
   <p>
     <%= f.label :start %>*<br />
-    <%= f.time_select :start %>
+    <%= f.time_select :start, {:minute_step => 15} %>
   </p>
   <p>
     <%= f.label :end %>*<br />
-    <%= f.time_select :end %>
+    <%= f.time_select :end, {:minute_step => 15} %>
   </p>
   <p>
     <%= f.label :location %>*<br />

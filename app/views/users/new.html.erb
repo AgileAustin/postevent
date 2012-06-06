@@ -1,3 +1,23 @@
 <h1>Add User</h1>
 
-<%= render 'form' %>
+<%= form_for @resource do |f| %>
+  <% if @resource.errors.any? %>
+    <div class="error_messages">
+      <h2>Form is invalid</h2>
+      <ul>
+        <% for message in @resource.errors.full_messages %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <p>
+    <%= f.label :email %>*<br />
+    <%= f.text_field :email, :size => 40, :maxlength => 255 %>
+  </p>
+  <p class="button"><%= f.submit %></p>
+<% end %>
+
+<script type="text/javascript">
+	focusField('user_email');
+</script>

@@ -1,0 +1,78 @@
+Posted by: <%= @event.user.email %>
+
+Eventbrite
+==========
+
+Event Title: <%= @event.sig.name %> - <%= @event.title %>
+
+Venue Name: <%= @event.location.name %>
+
+Street Address: <%= @event.location.address %>
+
+Date & Time:
+	Event Starts: <%= @date %> <%= @start %>
+	Event Ends: <%= @date %> <%= @end %>
+	
+Event Details:
+
+This month's topic: "<%= @event.title %>"
+	
+<%= @event.description %>
+<% if !@event.speaker.strip.empty? %>
+
+Speaker: <%= @event.speaker %>
+<% if !@event.speaker_bio.strip.empty? %>
+
+<%= @event.speaker_bio %>
+<% end %>
+<% end %>
+
+<%= @event.sig.name %> Info:
+<% if !@event.sig.google_group.strip.empty? %>
+	More information and communication may be found at the SIG's Google Group: <%= @event.sig.google_group %>.
+<% end %>
+	Food and Drink will be provided courtesy of <%= @event.food_sponsor %>.
+<% if !@event.location.directions.strip.empty? %>
+
+Directions and Parking Info:
+
+<%= @event.location.directions %>
+<% end %>
+
+Seating is limited!
+
+Please make sure that you are able to attend this session.  Seating is limited and on a first-come, first-served basis.  We want to give everyone the opportunity to attend, so please only sign up if you are committed to attending.
+<% if !@event.sig.email.strip.empty? %>
+
+For more information/questions, please send email to: <%= @event.sig.email %>.
+<% end %>
+
+Tickets: <%= @event.capacity %>
+
+
+WordPress / LinkedIn / Gmail Calendar
+=====================================
+
+<%= @event.sig.name %> - <%= @event.title %>
+
+<%= @event.description %>
+
+Date/Time: <%= @date %> <%= @start %> - <%= @end %>
+
+Venue: <%= @event.location.name %>, <%= @event.location.address %>
+
+To Register (and for more info): <Eventbrite URL>.
+	
+	
+Twitter
+=======
+
+<%= @event.sig.name %> - <%= @event.title %> - <%= @date %> - <Eventbrite URL>
+
+
+<% if !@event.special_instructions.strip.empty? %>
+Special Instructions
+====================
+
+<%= @event.special_instructions %>
+<% end %>
