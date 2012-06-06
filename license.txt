@@ -1,5 +1,5 @@
 postevent is a Ruby on Rails based infrastructure for posting event information. It was developed by and is
-copyrighted by Walter Bodwell (2012).  It is licensed under GPLv2 (included in this distribution).
+copyrighted by Walter Bodwell (2012).  It is licensed under GPLv2 (included below).
 
 		    GNU GENERAL PUBLIC LICENSE
 		       Version 2, June 1991
