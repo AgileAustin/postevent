@@ -8,8 +8,8 @@ gem 'rails', '3.1.3' # was 3.2.5
 gem 'mysql2'
 gem 'json'
 gem 'bcrypt-ruby'
-gem 'execjs'
-gem 'therubyracer'
+#gem 'execjs'
+#gem 'therubyracer'
 
 # Gems used only for assets and not required
 # in production environments by default.
