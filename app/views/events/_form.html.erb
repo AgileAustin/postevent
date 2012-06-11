@@ -23,7 +23,7 @@
   </p>
   <p>
     <%= f.label :date %>*<br />
-    <%= f.date_select :date, :prompt => {:year => 2012, :month => "Month", :day => "Day"} %>
+    <%= f.date_select :date, :prompt => {:year => Date.today.year, :month => "Month", :day => "Day"} %>
   </p>
   <p>
     <%= f.label :start %>*<br />
