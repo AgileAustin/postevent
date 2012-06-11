@@ -13,6 +13,8 @@ class EventsController < ResourceController
   def new_resource
     @resource = super
     @resource.food_sponsor = Rails.configuration.default_food_sponsor
+    @resource.start = Time.local(2012,1,1,12,0)
+    @resource.end = Time.local(2012,1,1,13,0)
     @resource
   end  
 end

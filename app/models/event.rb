@@ -13,4 +13,6 @@ class Event < ActiveRecord::Base
   validates :speaker, :length => {:maximum => 255}
   validates :speaker_bio, :length => {:maximum => 65536}
   validates :special_instructions, :length => {:maximum => 65536}
+  validates :sig, :presence => true
+  validates :location, :presence => true
 end

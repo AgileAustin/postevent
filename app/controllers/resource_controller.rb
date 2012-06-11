@@ -30,6 +30,7 @@ class ResourceController < ApplicationController
 
   def create
     @resource = resource_class.new(params[resource_parameter])
+    @result = false
    
     respond_to do |format|
       if @resource.save
@@ -37,14 +38,14 @@ class ResourceController < ApplicationController
         format.html  { redirect_to(:action => "new") }
         format.json  { render :json => @resource,
                       :status => :created, :location => @resource }
-        true
+        @result = true
       else
         format.html  { render :action => "new" }
         format.json  { render :json => @resource.errors,
                       :status => :unprocessable_entity }
-        false
       end
     end
+    @result
   end
 
   def edit

@@ -18,6 +18,8 @@ class EventMailer < ActionMailer::Base
     @hour = time.hour
     if time.hour >= 12
       @meridian = 'pm'
+    end
+    if time.hour > 12
       @hour = time.hour - 12
     end
     @hour.to_s + ':' + (time.min < 10 ? '0' : '') + time.min.to_s + " " + @meridian
