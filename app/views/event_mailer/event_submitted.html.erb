@@ -64,7 +64,10 @@ For more information/questions, please send email to: <%= @event.sig.email %>.<b
 <% @event.description.split("\n").each do |str| %>
 <%= str %><br/>
 <% end %>
+<% if !@event.speaker.strip.empty? %>
 <br/>
+Speaker: <%= @event.speaker %><br/>
+<% end %><br/>
 Date/Time: <%= @date %> <%= @start %> - <%= @end %><br/>
 <br/>
 Venue: <%= @event.location.name %>, <%= @event.location.address %><br/>
