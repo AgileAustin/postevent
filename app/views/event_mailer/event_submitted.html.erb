@@ -15,15 +15,19 @@ Posted by: <%= @event.user.email %><br/>
 </ul>
 <b>Event Details:</b><br/>
 <br/>
-<b>This month's topic: "<%= @event.title %>"</b><br/>
+<b>Topic: "<%= @event.title %>"</b><br/>
 <br/>
-<%= @event.description %><br/>
+<% @event.description.split("\n").each do |str| %>
+<%= str %><br/>
+<% end %>
 <% if !@event.speaker.strip.empty? %>
 <br/>
 <b>Speaker: <%= @event.speaker %></b><br/>
 <% if !@event.speaker_bio.strip.empty? %>
 <br/>
-<%= @event.speaker_bio %><br/>
+<% @event.speaker_bio.split("\n").each do |str| %>
+<%= str %><br/>
+<% end %>
 <% end %>
 <% end %>
 <br/>
@@ -37,7 +41,9 @@ Posted by: <%= @event.user.email %><br/>
 <% if !@event.location.directions.strip.empty? %>
 <b><u>Directions and Parking Info:</u></b><br/>
 <br/>
-<%= @event.location.directions %><br/>
+<% @event.location.directions.split("\n").each do |str| %>
+<%= str %><br/>
+<% end %>
 <% end %>
 <br/>
 <b>Seating is limited!</b><br/>
@@ -55,7 +61,9 @@ For more information/questions, please send email to: <%= @event.sig.email %>.<b
 <br/>
 <%= @event.sig.name %> - <%= @event.title %><br/>
 <br/>
-<%= @event.description %><br/>
+<% @event.description.split("\n").each do |str| %>
+<%= str %><br/>
+<% end %>
 <br/>
 Date/Time: <%= @date %> <%= @start %> - <%= @end %><br/>
 <br/>
@@ -72,5 +80,7 @@ To Register (and for more info): Eventbrite URL.<br/>
 <% if !@event.special_instructions.strip.empty? %>
 <b>Special Instructions</b><br/>
 <br/>
-<%= @event.special_instructions %><br/>
+<% @event.special_instructions.split("\n").each do |str| %>
+<%= str %><br/>
+<% end %>
 <% end %>

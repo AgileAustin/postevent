@@ -13,7 +13,7 @@
 <% @resources.each do |resource| %>
   <tr>
     <td><%= resource.date %></td>
-    <td><%= resource.start %></td>
+    <td><%= resource.start.hour %>:<%= (resource.start.min < 10 ? "0" : "") + resource.start.min.to_s %></td>
     <td><%= resource.sig.name %></td>
     <td><%= resource.title %></td>
     <td><%= resource.location.name %></td>

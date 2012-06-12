@@ -23,15 +23,15 @@
   </p>
   <p>
     <%= f.label :date %>*<br />
-    <%= f.date_select :date, :prompt => {:year => Date.today.year, :month => "Month", :day => "Day"} %>
+    <%= f.date_select :date, :start_year => Date.today.year, :prompt => {:month => "Month", :day => "Day"} %>
   </p>
   <p>
     <%= f.label :start %>*<br />
-    <%= f.time_select :start, :minute_step => 15 %>
+    <%= f.time_select :start, :minute_step => 15, :ampm => true %>
   </p>
   <p>
     <%= f.label :end %>*<br />
-    <%= f.time_select :end, :minute_step => 15 %>
+    <%= f.time_select :end, :minute_step => 15, :ampm => true %>
   </p>
   <p>
     <%= f.label :location %>*<br />
