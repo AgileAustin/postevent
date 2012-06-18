@@ -7,7 +7,7 @@ Event Title: <%= @event.sig.name %> - <%= @event.title %>
 
 Venue Name: <%= @event.location.name %>
 
-Street Address: <%= @event.location.address %>
+Street Address: %= @event.location.address %>, <%= @event.location.city %>, <%= @event.location.state %> <%= @event.location.postal_code %>
 
 Date & Time:
 	Event Starts: <%= @date %> <%= @start %>
@@ -59,15 +59,15 @@ WordPress / LinkedIn / Gmail Calendar
 
 Date/Time: <%= @date %> <%= @start %> - <%= @end %>
 
-Venue: <%= @event.location.name %>, <%= @event.location.address %>
+Venue: <%= @event.location.name %>, %= @event.location.address %>, <%= @event.location.city %>, <%= @event.location.state %> <%= @event.location.postal_code %>
 
-To Register (and for more info): <Eventbrite URL>.
+To Register (and for more info): http://www.eventbrite.com/event/<%= @event.eventbrite_id %>.
 	
 	
 Twitter
 =======
 
-<%= @event.sig.name %> - <%= @event.title %> - <%= @date %> - <Eventbrite URL>
+<%= @event.sig.name %> - <%= @event.title %> - <%= @date %> - http://www.eventbrite.com/event/<%= @event.eventbrite_id %>
 
 
 <% if !@event.special_instructions.strip.empty? %>

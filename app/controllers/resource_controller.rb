@@ -2,7 +2,7 @@ class ResourceController < ApplicationController
   before_filter :login_required
 
   def index
-    @resources = resource_class.all
+    @resources = resource_class.all(:order => order_by)
    
     respond_to do |format|
       format.html  # index.html.erb
@@ -54,12 +54,14 @@ class ResourceController < ApplicationController
 
   def update
     @resource = resource_class.find(params[:id])
+    @result = false
    
     respond_to do |format|
       if @resource.update_attributes(params[resource_parameter])
         flash[:notice] = resource_name + ' was successfully updated.'
         format.html  { redirect_to(:action => "index") }
         format.json  { head :no_content }
+        @result = true
       else
         format.html  { render :action => "edit" }
         format.json  { render :json => @resource.errors,
@@ -87,6 +89,10 @@ class ResourceController < ApplicationController
   end
 
 private
+
+  def order_by
+    'name'
+  end
   
   def new_resource
     resource_class.new

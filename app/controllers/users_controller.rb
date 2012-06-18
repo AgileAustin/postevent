@@ -12,6 +12,10 @@ class UsersController < ResourceController
     User
   end
   
+  def order_by
+    'email'
+  end
+  
   def create_user
   end
   

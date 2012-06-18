@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 private
 
   def set_timezone
-    Time.zone = 'America/Chicago'
+    Time.zone = Rails.configuration.timezone
   end
 
   def login_required

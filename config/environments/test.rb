@@ -36,10 +36,18 @@ Postevent::Application.configure do
   config.active_support.deprecation = :stderr
   
   # Application specific configuration
-  config.email_contact = "noreply@sample.com"
+  config.email_contact = "noreply@gmail.com"
   config.organization = "postevent"
+  config.timezone = "America/Chicago"
   config.post_url = "http://www.postevent.com"
   config.blog_url = "http://blog.postevent.com"
   config.calendar_url = "http://calendar.postevent.com"
   config.default_food_sponsor = "Our Sponsor"
+  config.default_city = "Austin"
+  config.default_state = "TX"
+  config.default_country = "US"
+  config.eventbrite_app_key = nil
+  config.eventbrite_user_key = nil
+  config.eventbrite_organizer_id = nil
+  config.eventbrite_timezone = "GMT-06"
 end

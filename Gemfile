@@ -8,6 +8,7 @@ gem 'rails', '3.1.3' # was 3.2.5
 gem 'mysql2'
 gem 'json'
 gem 'bcrypt-ruby'
+gem 'httparty'
 #gem 'execjs'
 #gem 'therubyracer'
 

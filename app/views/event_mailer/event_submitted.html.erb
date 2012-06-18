@@ -6,7 +6,7 @@ Posted by: <%= @event.user.email %><br/>
 <br/>
 <b>Venue Name:</b> <%= @event.location.name %><br/>
 <br/>
-<b>Street Address:</b> <%= @event.location.address %><br/>
+<b>Street Address:</b> <%= @event.location.address %>, <%= @event.location.city %>, <%= @event.location.state %> <%= @event.location.postal_code %><br/>
 <br/>
 <b>Date & Time:</b><br/>
 <ul>
@@ -70,14 +70,14 @@ Speaker: <%= @event.speaker %><br/>
 <% end %><br/>
 Date/Time: <%= @date %> <%= @start %> - <%= @end %><br/>
 <br/>
-Venue: <%= @event.location.name %>, <%= @event.location.address %><br/>
+Venue: <%= @event.location.name %>, <%= @event.location.address %>, <%= @event.location.city %>, <%= @event.location.state %> <%= @event.location.postal_code %><br/>
 <br/>
-To Register (and for more info): Eventbrite URL.<br/>
+To Register (and for more info): http://www.eventbrite.com/event/<%= @event.eventbrite_id %>.<br/>
 <br/>
 <br/>
 <b><%= link_to 'Twitter', 'http://twitter.com' %></b><br/>
 <br/>
-<%= @event.sig.name %> - <%= @event.title %> - <%= @date %> - Eventbrite URL<br/>
+<%= @event.sig.name %> - <%= @event.title %> - <%= @date %> - http://www.eventbrite.com/event/<%= @event.eventbrite_id %><br/>
 <br/>
 <br/>
 <% if !@event.special_instructions.strip.empty? %>
