@@ -82,4 +82,8 @@ Postevent::Application.configure do
   config.eventbrite_timezone = "GMT-06"
   config.blog_email = nil
   config.community_email = nil
+  config.twitter_consumer_key = nil
+  config.twitter_consumer_secret = nil
+  config.twitter_oauth_token = nil
+  config.twitter_oauth_token_secret = nil
 end

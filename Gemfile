@@ -9,6 +9,7 @@ gem 'mysql2'
 gem 'json'
 gem 'bcrypt-ruby'
 gem 'httparty'
+gem 'twitter'
 #gem 'execjs'
 #gem 'therubyracer'
 
