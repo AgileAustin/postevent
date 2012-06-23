@@ -1,0 +1,13 @@
+<h2><%= @event.sig.name %> - <%= @event.title %></h2>
+<% @event.description.split("\n").each do |str| %>
+<%= str %><br/>
+<% end %>
+<% if !@event.speaker.strip.empty? %>
+<br/>
+Speaker: <%= @event.speaker %><br/>
+<% end %><br/>
+Date/Time: <%= @date %> <%= @start %> - <%= @end %><br/>
+<br/>
+Venue: <%= @event.location.name %>, <%= @event.location.address %>, <%= @event.location.city %>, <%= @event.location.state %> <%= @event.location.postal_code %><br/>
+<br/>
+To Register (and for more info): http://www.eventbrite.com/event/<%= @event.eventbrite_id %>.

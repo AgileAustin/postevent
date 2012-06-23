@@ -1,0 +1,9 @@
+<%= @event.sig.name %> - <%= @event.title %>
+
+<%= @event.description %>
+
+Date/Time: <%= @date %> <%= @start %> - <%= @end %>
+
+Venue: <%= @event.location.name %>, %= @event.location.address %>, <%= @event.location.city %>, <%= @event.location.state %> <%= @event.location.postal_code %>
+
+To Register (and for more info): http://www.eventbrite.com/event/<%= @event.eventbrite_id %>.

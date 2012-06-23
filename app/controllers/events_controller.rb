@@ -2,14 +2,25 @@ class EventsController < ResourceController
   def create
     params[resource_parameter][:user_id] = current_user.id
     if super
+      ManualMailer.event_submitted(@resource, {:prefix => "Posted: "}).deliver 
       EventbriteService.new.create_event(@resource)
-      EventMailer.event_submitted(@resource).deliver 
+      BlogMailer.event_submitted(@resource).deliver 
+      CommunityMailer.event_submitted(@resource).deliver 
     end
+  end
+
+  def edit
+    @is_change = true
+    super
   end
 
   def update
     if super
+      ManualMailer.event_submitted(@resource, {:prefix => "Updated: "}).deliver 
       EventbriteService.new.update_event(@resource)
+      if params[:update_mailing_list]
+        CommunityMailer.event_submitted(@resource, {:prefix => "Updated: "}).deliver 
+      end
     end
   end
 

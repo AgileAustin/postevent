@@ -1,13 +1,24 @@
 class EventMailer < ActionMailer::Base
   default :from => Rails.configuration.email_contact
   
-  def event_submitted(event)
+  def event_submitted(event, options = {})
     @event = event
     @date = format_date(@event.date)
     @start = format_time(@event.start)
     @end = format_time(@event.end)
-    mail(:to => Rails.configuration.email_contact, :subject => "Event posted: " + event.sig.name)  
+    if recipient
+      mail(:to => recipient, :subject => subject(event, options))
+    end
   end  
+  
+  def recipient
+    nil
+  end
+  
+  def subject(event, options)
+    prefix = options[:prefix] ? options[:prefix] : ''
+    prefix + event.sig.name + " - " + event.title
+  end
   
   def format_date(date)
     date.month.to_s + "/" + date.day.to_s + "/" + (date.year % 100).to_s

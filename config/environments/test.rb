@@ -50,4 +50,6 @@ Postevent::Application.configure do
   config.eventbrite_user_key = nil
   config.eventbrite_organizer_id = nil
   config.eventbrite_timezone = "GMT-06"
+  config.blog_email = nil
+  config.community_email = nil
 end

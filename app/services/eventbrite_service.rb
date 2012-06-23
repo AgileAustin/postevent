@@ -84,7 +84,7 @@ private
 
   def get_event_params(event)
     params = get_params
-    params['title'] = event.title
+    params['title'] = event.sig.name + " - " + event.title
     params['description'] = get_event_details(event)
     params['start_date'] = get_date_time(event.date, event.start)
     params['end_date'] = get_date_time(event.date, event.end)
