@@ -15,4 +15,8 @@ class Event < ActiveRecord::Base
   validates :special_instructions, :length => {:maximum => 65536}
   validates :sig, :presence => true
   validates :location, :presence => true
+  
+  def group_title
+    sig.name + " - " + title
+  end
 end

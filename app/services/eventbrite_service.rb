@@ -76,6 +76,9 @@ private
     params = get_params
     params['name'] = location.name
     params['address'] = location.address
+    if location.address2
+      params['address_2'] = location.address2
+    end
     params['city'] = location.city
     params['region'] = location.state
     params['postal_code'] = location.postal_code
@@ -85,7 +88,7 @@ private
 
   def get_event_params(event)
     params = get_params
-    params['title'] = event.sig.name + " - " + event.title
+    params['title'] = event.group_title
     params['description'] = get_event_details(event)
     params['start_date'] = get_date_time(event.date, event.start)
     params['end_date'] = get_date_time(event.date, event.end)

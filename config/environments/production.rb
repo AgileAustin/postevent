@@ -86,4 +86,11 @@ Postevent::Application.configure do
   config.twitter_consumer_secret = nil
   config.twitter_oauth_token = nil
   config.twitter_oauth_token_secret = nil
+  config.google_calendar_id = nil
+  config.google_api_client_secret = nil
+  config.google_api_client_id = nil
+  config.google_api_refresh_token = nil
+  config.google_api_access_token = nil
+  config.google_api_timezone = "-06:00"
+  config.google_api_timezone_dst = "-05:00"
 end

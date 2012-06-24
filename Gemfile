@@ -10,6 +10,7 @@ gem 'json'
 gem 'bcrypt-ruby'
 gem 'httparty'
 gem 'twitter'
+gem 'google-api-client'
 #gem 'execjs'
 #gem 'therubyracer'
 

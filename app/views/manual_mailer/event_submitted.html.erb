@@ -2,11 +2,11 @@ Posted by: <%= @event.user.email %><br/>
 <br/>
 <b><%= link_to 'Eventbrite', 'http://eventbrite.com' %></b><br/>
 <br/>
-<b>Event Title:</b> <%= @event.sig.name %> - <%= @event.title %><br/>
+<b>Event Title:</b> <%= @event.group_title %><br/>
 <br/>
 <b>Venue Name:</b> <%= @event.location.name %><br/>
 <br/>
-<b>Street Address:</b> <%= @event.location.address %>, <%= @event.location.city %>, <%= @event.location.state %> <%= @event.location.postal_code %><br/>
+<b>Street Address:</b> <%= @event.location.full_address %><br/>
 <br/>
 <b>Date & Time:</b><br/>
 <ul>
@@ -59,7 +59,7 @@ For more information/questions, please send email to: <%= @event.sig.email %>.<b
 <br/>
 <b><%= link_to 'WordPress', Rails.configuration.blog_url %> / <%= link_to 'LinkedIn', 'http://linkedin.com' %> / <%= link_to 'Gmail Calendar', Rails.configuration.calendar_url %></b><br/>
 <br/>
-<%= @event.sig.name %> - <%= @event.title %><br/>
+<%= @event.group_title %><br/>
 <br/>
 <% @event.description.split("\n").each do |str| %>
 <%= str %><br/>
@@ -70,14 +70,14 @@ Speaker: <%= @event.speaker %><br/>
 <% end %><br/>
 Date/Time: <%= @date %> <%= @start %> - <%= @end %><br/>
 <br/>
-Venue: <%= @event.location.name %>, <%= @event.location.address %>, <%= @event.location.city %>, <%= @event.location.state %> <%= @event.location.postal_code %><br/>
+Venue: <%= @event.location.name_and_address %><br/>
 <br/>
 To Register (and for more info): http://www.eventbrite.com/event/<%= @event.eventbrite_id %>.<br/>
 <br/>
 <br/>
 <b><%= link_to 'Twitter', 'http://twitter.com' %></b><br/>
 <br/>
-<%= @event.sig.name %> - <%= @event.title %> - <%= @date %> - http://www.eventbrite.com/event/<%= @event.eventbrite_id %><br/>
+<%= @event.group_title %> - <%= @date %> - http://www.eventbrite.com/event/<%= @event.eventbrite_id %><br/>
 <br/>
 <br/>
 <% if !@event.special_instructions.strip.empty? %>

@@ -3,11 +3,11 @@ Posted by: <%= @event.user.email %>
 Eventbrite
 ==========
 
-Event Title: <%= @event.sig.name %> - <%= @event.title %>
+Event Title: <%= @event.group_title %>
 
 Venue Name: <%= @event.location.name %>
 
-Street Address: %= @event.location.address %>, <%= @event.location.city %>, <%= @event.location.state %> <%= @event.location.postal_code %>
+Street Address: %= @event.location.full_address %>
 
 Date & Time:
 	Event Starts: <%= @date %> <%= @start %>
@@ -53,13 +53,13 @@ Tickets: <%= @event.capacity %>
 WordPress / LinkedIn / Gmail Calendar
 =====================================
 
-<%= @event.sig.name %> - <%= @event.title %>
+<%= @event.group_title %>
 
 <%= @event.description %>
 
 Date/Time: <%= @date %> <%= @start %> - <%= @end %>
 
-Venue: <%= @event.location.name %>, %= @event.location.address %>, <%= @event.location.city %>, <%= @event.location.state %> <%= @event.location.postal_code %>
+Venue: <%= @event.location.name_and_address %>
 
 To Register (and for more info): http://www.eventbrite.com/event/<%= @event.eventbrite_id %>.
 	
@@ -67,7 +67,7 @@ To Register (and for more info): http://www.eventbrite.com/event/<%= @event.even
 Twitter
 =======
 
-<%= @event.sig.name %> - <%= @event.title %> - <%= @date %> - http://www.eventbrite.com/event/<%= @event.eventbrite_id %>
+<%= @event.group_title %> - <%= @date %> - http://www.eventbrite.com/event/<%= @event.eventbrite_id %>
 
 
 <% if !@event.special_instructions.strip.empty? %>

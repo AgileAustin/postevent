@@ -6,6 +6,7 @@ class EventsController < ResourceController
       EventbriteService.new.create_event(@resource)
       BlogMailer.event_submitted(@resource).deliver 
       CommunityMailer.event_submitted(@resource).deliver
+      GoogleCalendarService.new.create_event(@resource)
       TwitterService.new.create_event(@resource)
     end
   end
@@ -19,6 +20,7 @@ class EventsController < ResourceController
     if super
       ManualMailer.event_submitted(@resource, {:prefix => "Updated: "}).deliver 
       EventbriteService.new.update_event(@resource)
+      GoogleCalendarService.new.update_event(@resource)
       if params[:update_mailing_list]
         CommunityMailer.event_submitted(@resource, {:prefix => "Updated: "}).deliver 
         TwitterService.new.update_event(@resource)
