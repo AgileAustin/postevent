@@ -63,4 +63,8 @@ Postevent::Application.configure do
   config.google_api_access_token = nil
   config.google_api_timezone = "-06:00"
   config.google_api_timezone_dst = "-05:00"
+  config.wordpress_username = nil
+  config.wordpress_password = nil
+  config.wordpress_base_url = nil # example http://www.example.com/api/
+  config.wordpress_category = nil
 end

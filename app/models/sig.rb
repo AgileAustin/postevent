@@ -4,4 +4,8 @@ class Sig < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true, :length => {:maximum => 255}
   validates :google_group, :length => {:maximum => 255}
   validates :name, :length => {:maximum => 255}
+  
+  def wordpress_category
+    name.downcase.gsub(/ /,'-')
+  end
 end

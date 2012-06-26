@@ -4,10 +4,10 @@ class EventsController < ResourceController
     if super
       ManualMailer.event_submitted(@resource, {:prefix => "Posted: "}).deliver 
       EventbriteService.new.create_event(@resource)
-      BlogMailer.event_submitted(@resource).deliver 
       CommunityMailer.event_submitted(@resource).deliver
       GoogleCalendarService.new.create_event(@resource)
       TwitterService.new.create_event(@resource)
+      WordpressService.new.create_event(@resource)
     end
   end
 
