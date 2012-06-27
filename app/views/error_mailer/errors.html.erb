@@ -1,0 +1,9 @@
+<% @errors.each do |error| %>
+<b>Service:</b> <%= error[:service] %><br/>
+<b>Error:</b> <%= error[:error] %><br/>
+<b>Stack Trace:</b><br/>
+<% error[:stack].each do |str| %>
+<%= str %><br/>
+<% end %>
+<br/>
+<% end %>

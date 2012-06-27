@@ -19,4 +19,8 @@ class Event < ActiveRecord::Base
   def group_title
     sig.name + " - " + title
   end
+  
+  def eventbrite_url
+    "http://www.eventbrite.com/event/" + (eventbrite_id ? eventbrite_id : '')
+  end
 end

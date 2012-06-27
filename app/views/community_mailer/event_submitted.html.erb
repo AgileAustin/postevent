@@ -10,4 +10,4 @@ Date/Time: <%= @date %> <%= @start %> - <%= @end %><br/>
 <br/>
 Venue: <%= @event.location.name_and_address %><br/>
 <br/>
-To Register (and for more info): http://www.eventbrite.com/event/<%= @event.eventbrite_id %>.
+To Register (and for more info): <%= @event.eventbrite_url %>.

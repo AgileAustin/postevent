@@ -1,4 +1,4 @@
-class GoogleCalendarService
+class GoogleCalendarService < Service
   require 'google/api_client'
   
   def create_event(event)
@@ -90,6 +90,6 @@ private
     end
     result += 
       "\n" +
-      "To Register (and for more info): http://www.eventbrite.com/event/#{event.eventbrite_id}"
+      "To Register (and for more info): #{event.eventbrite_url}"
   end
 end

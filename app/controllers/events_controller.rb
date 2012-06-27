@@ -2,12 +2,18 @@ class EventsController < ResourceController
   def create
     params[resource_parameter][:user_id] = current_user.id
     if super
+      errors = []
+      EventbriteService.new.create(@resource, errors)
       ManualMailer.event_submitted(@resource, {:prefix => "Posted: "}).deliver 
-      EventbriteService.new.create_event(@resource)
-      CommunityMailer.event_submitted(@resource).deliver
-      GoogleCalendarService.new.create_event(@resource)
-      TwitterService.new.create_event(@resource)
-      WordpressService.new.create_event(@resource)
+      GoogleCalendarService.new.create(@resource, errors)
+      if Rails.configuration.community_email
+        CommunityMailer.event_submitted(@resource).deliver
+      end
+      TwitterService.new.create(@resource, errors)
+      WordpressService.new.create(@resource, errors)
+      if !errors.empty?
+        ErrorMailer.errors(errors, "Posting").deliver
+      end
     end
   end
 
@@ -18,12 +24,18 @@ class EventsController < ResourceController
 
   def update
     if super
+      errors = []
+      EventbriteService.new.update(@resource, errors)
       ManualMailer.event_submitted(@resource, {:prefix => "Updated: "}).deliver 
-      EventbriteService.new.update_event(@resource)
-      GoogleCalendarService.new.update_event(@resource)
+      GoogleCalendarService.new.update(@resource, errors)
       if params[:update_mailing_list]
-        CommunityMailer.event_submitted(@resource, {:prefix => "Updated: "}).deliver 
-        TwitterService.new.update_event(@resource)
+        if Rails.configuration.community_email
+          CommunityMailer.event_submitted(@resource, {:prefix => "Updated: "}).deliver 
+        end
+        TwitterService.new.update(@resource, errors)
+      end
+      if !errors.empty?
+        ErrorMailer.errors(errors, "Updating").deliver
       end
     end
   end

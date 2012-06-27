@@ -1,4 +1,4 @@
-class EventbriteService
+class EventbriteService < Service
   require "app/utils/formatter.rb"
   include HTTParty
   @@base_uri = 'https://www.eventbrite.com/xml/'
@@ -7,7 +7,7 @@ class EventbriteService
     if is_enabled
       params = get_location_params(location)
       params['organizer_id'] = Rails.configuration.eventbrite_organizer_id
-      result = self.class.get(@@base_uri + 'venue_new', {:query => params})
+      result = self.class.get(@@base_uri + 'venue_new', {:query => params})      
       location.eventbrite_id = result['process']['id']
       location.save
     end
@@ -30,6 +30,9 @@ class EventbriteService
       params = get_event_params(event)
       params['organizer_id'] = Rails.configuration.eventbrite_organizer_id
       result = self.class.get(@@base_uri + 'event_new', {:query => params})
+      if result['error']
+        raise result['error']['error_message']
+      end
       event.eventbrite_id = result['process']['id']
       event.save
       create_ticket(event)
