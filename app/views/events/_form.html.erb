@@ -9,6 +9,9 @@
       </ul>
     </div>
   <% end %>
+  <% if @is_change %>
+    <%= check_box_tag :update_mailing_list, 1, true %> Update Mailing List / Twitter / LinkedIn?
+  <% end %>
   <p>
     <%= f.label :title %>*<br />
     <%= f.text_field :title, :maxlength => 255, :size => 40 %>
@@ -57,9 +60,6 @@
     <%= f.label :special_instructions %><br />
     <%= f.text_area :special_instructions, :size => "80x10", :maxlength => 65536 %>
   </p>
-  <% if @is_change %>
-    <%= check_box_tag :update_mailing_list, 1, true %> <%= label_tag 'Update Mailing List?' %>
-  <% end %>
   <p class="button"><%= f.submit %></p>
 <% end %>
 
