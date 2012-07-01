@@ -39,6 +39,8 @@ Postevent::Application.configure do
   config.email_contact = "noreply@gmail.com"
   config.organization = "postevent"
   config.timezone = "America/Chicago"
+  config.timezone_offset = "-06"
+  config.timezone_offset_dst = "-05"
   config.post_url = "http://www.postevent.com"
   config.blog_url = "http://blog.postevent.com"
   config.calendar_url = "http://calendar.postevent.com"
@@ -49,8 +51,6 @@ Postevent::Application.configure do
   config.eventbrite_app_key = nil
   config.eventbrite_user_key = nil
   config.eventbrite_organizer_id = nil
-  config.eventbrite_timezone = "GMT-06"
-  config.blog_email = nil
   config.community_email = nil
   config.twitter_consumer_key = nil
   config.twitter_consumer_secret = nil
@@ -61,6 +61,13 @@ Postevent::Application.configure do
   config.google_api_client_id = nil
   config.google_api_refresh_token = nil
   config.google_api_access_token = nil
-  config.google_api_timezone = "-06:00"
-  config.google_api_timezone_dst = "-05:00"
+  config.wordpress_username = nil
+  config.wordpress_password = nil
+  config.wordpress_base_url = nil # example http://www.example.com/api/
+  config.wordpress_category = nil
+  config.linkedin_consumer_key = nil
+  config.linkedin_consumer_secret = nil
+  config.linkedin_oauth_token = nil
+  config.linkedin_oauth_token_secret = nil
+  config.linkedin_group_id = nil
 end

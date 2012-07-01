@@ -11,6 +11,8 @@ gem 'bcrypt-ruby'
 gem 'httparty'
 gem 'twitter'
 gem 'google-api-client'
+gem 'oauth'
+gem 'linkedin'
 #gem 'execjs'
 #gem 'therubyracer'
 

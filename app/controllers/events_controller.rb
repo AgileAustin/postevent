@@ -11,6 +11,7 @@ class EventsController < ResourceController
       end
       TwitterService.new.create(@resource, errors)
       WordpressService.new.create(@resource, errors)
+      LinkedinService.new.create(@resource, errors)
       if !errors.empty?
         ErrorMailer.errors(errors, "Posting").deliver
       end
@@ -33,6 +34,7 @@ class EventsController < ResourceController
           CommunityMailer.event_submitted(@resource, {:prefix => "Updated: "}).deliver 
         end
         TwitterService.new.update(@resource, errors)
+        LinkedinService.new.update(@resource, errors)
       end
       if !errors.empty?
         ErrorMailer.errors(errors, "Updating").deliver
