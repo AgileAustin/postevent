@@ -13,14 +13,16 @@ class LinkedinService < Service
 private
   
   def post_event(event, prefix='')
-    params = {
-      'title' => prefix + event.group_title,
-      'summary' => get_event_details(event)
-    }
-    
-    client = LinkedIn::Client.new(Rails.configuration.linkedin_consumer_key, Rails.configuration.linkedin_consumer_secret)
-    client.authorize_from_access(Rails.configuration.linkedin_oauth_token, Rails.configuration.linkedin_oauth_token_secret)
-    json_txt = client.post_to_group(Rails.configuration.linkedin_group_id, params)
+    if Rails.configuration.linkedin_consumer_key
+      params = {
+        'title' => prefix + event.group_title,
+        'summary' => get_event_details(event)
+      }
+      
+      client = LinkedIn::Client.new(Rails.configuration.linkedin_consumer_key, Rails.configuration.linkedin_consumer_secret)
+      client.authorize_from_access(Rails.configuration.linkedin_oauth_token, Rails.configuration.linkedin_oauth_token_secret)
+      json_txt = client.post_to_group(Rails.configuration.linkedin_group_id, params)
+    end
   end
   
   def get_event_details(event)
