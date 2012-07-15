@@ -3,6 +3,11 @@ class GoogleCalendarService < Service
   
   def create_event(event)
     if is_enabled
+      placeholder = get_existing_event(event)
+      if placeholder != nil && Event.where(:google_id => placeholder).empty?
+        delete_existing_event(placeholder)
+      end
+
       client = get_client
       service = get_service(client)
       result = client.execute(:api_method => service.events.insert,
@@ -33,6 +38,36 @@ class GoogleCalendarService < Service
   end
     
 private
+
+  def get_existing_event(event)
+    client = get_client
+    service = get_service(client)
+    result = client.execute(:api_method => service.events.list,
+      :parameters => {
+        'calendarId' => Rails.configuration.google_calendar_id,
+        'q' => event.sig.name,
+        'singleEvents' => 'true',
+        'timeMin' => get_date_time(event.date - 7, event.start),
+        'timeMax' => get_date_time(event.date + 7, event.start)
+      },
+      :headers => {'Content-Type' => 'application/json'})
+    if result.data.items.length != 1
+      nil
+    else
+      result.data.items[0].id
+    end
+  end
+
+  def delete_existing_event(eventId)
+    client = get_client
+    service = get_service(client)
+    client.execute(:api_method => service.events.delete,
+      :parameters => {
+        'calendarId' => Rails.configuration.google_calendar_id,
+        'eventId' => eventId
+      },
+      :headers => {'Content-Type' => 'application/json'})
+  end
 
   def is_enabled
     Rails.configuration.google_calendar_id != nil
