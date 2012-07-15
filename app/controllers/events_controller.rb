@@ -42,6 +42,8 @@ class EventsController < ResourceController
     end
   end
 
+private
+
   def resource_class
     Event
   end
@@ -57,4 +59,12 @@ class EventsController < ResourceController
     @resource.end = Time.local(2012,1,1,13,0)
     @resource
   end  
+  
+  def created_message
+    super + " Posted to Eventbrite, mailing list, Google calendar, web site, Twitter and LinkedIn."
+  end
+  
+  def updated_message
+    super + " Updated on Eventbrite and Google calendar." + (params[:update_mailing_list] ? " Reposted to mailing list, Twitter and LinkedIn." : "")
+  end
 end

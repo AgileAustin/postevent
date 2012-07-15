@@ -34,7 +34,7 @@ class ResourceController < ApplicationController
    
     respond_to do |format|
       if @resource.save
-        flash[:error] = resource_name + ' was successfully created.'
+        flash[:error] = created_message
         format.html  { redirect_to(:action => "new") }
         format.json  { render :json => @resource,
                       :status => :created, :location => @resource }
@@ -58,7 +58,7 @@ class ResourceController < ApplicationController
    
     respond_to do |format|
       if @resource.update_attributes(params[resource_parameter])
-        flash[:notice] = resource_name + ' was successfully updated.'
+        flash[:notice] = updated_message
         format.html  { redirect_to(:action => "index") }
         format.json  { head :no_content }
         @result = true
@@ -112,5 +112,13 @@ private
   
   def resource_class
     raise "Resource class not defined"
+  end
+  
+  def created_message
+    resource_name + ' was successfully created.'
+  end
+  
+  def updated_message
+    resource_name + ' was successfully updated.'
   end
 end
