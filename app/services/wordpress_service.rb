@@ -10,15 +10,33 @@ class WordpressService < Service
   
   def create_event(event)
     if is_enabled
-      params = get_event_params(event)
-      params['nonce'] = get_main_nonce
-      params['author'] = Rails.configuration.wordpress_username
-      params['user_password'] = Rails.configuration.wordpress_password
-      self.class.get(@@base_uri + 'create_post', :query => params)
+      response = self.class.get(@@base_uri + 'create_post', :query => get_params(event))
+      event.wordpress_id = response['post']['id']
+      event.save
+    end
+  end
+  
+  def update_event(event)
+    if is_enabled
+      if (event.wordpress_id)
+        params = get_params(event)
+        params['ID'] = event.wordpress_id
+        self.class.get(@@base_uri + 'create_post', :query => params)
+      else
+        create_event(event)
+      end
     end
   end
   
 private
+
+  def get_params(event)
+    params = get_event_params(event)
+    params['nonce'] = get_main_nonce
+    params['author'] = Rails.configuration.wordpress_username
+    params['user_password'] = Rails.configuration.wordpress_password
+    params
+  end
 
   def get_main_nonce
       params = {:controller => 'posts', :method => 'create_post'}

@@ -29,6 +29,7 @@ class EventsController < ResourceController
       EventbriteService.new.update(@resource, errors)
       ManualMailer.event_submitted(@resource, {:prefix => "Updated: "}).deliver 
       GoogleCalendarService.new.update(@resource, errors)
+      WordpressService.new.update(@resource, errors)
       if params[:update_mailing_list]
         if Rails.configuration.community_email
           CommunityMailer.event_submitted(@resource, {:prefix => "Updated: "}).deliver 
@@ -65,6 +66,6 @@ private
   end
   
   def updated_message
-    super + " Updated on Eventbrite and Google calendar." + (params[:update_mailing_list] ? " Reposted to mailing list, Twitter and LinkedIn." : "")
+    super + " Updated on Eventbrite, Google calendar and web site." + (params[:update_mailing_list] ? " Reposted to mailing list, Twitter and LinkedIn." : "")
   end
 end
