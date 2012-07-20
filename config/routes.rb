@@ -7,6 +7,7 @@ Postevent::Application.routes.draw do
 
   root :to => "events#new"
   match 'logout', :to => 'sessions#destroy', :as => "logout"
+  match 'users/:id/reset_password' => 'users#reset_password', :as => :reset_password
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
