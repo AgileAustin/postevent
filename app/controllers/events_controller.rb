@@ -6,12 +6,14 @@ class EventsController < ResourceController
       EventbriteService.new.create(@resource, errors)
       ManualMailer.event_submitted(@resource, {:prefix => "Posted: "}).deliver 
       GoogleCalendarService.new.create(@resource, errors)
-      if Rails.configuration.community_email
-        CommunityMailer.event_submitted(@resource).deliver
-      end
-      TwitterService.new.create(@resource, errors)
       WordpressService.new.create(@resource, errors)
-      LinkedinService.new.create(@resource, errors)
+      if params[:update_mailing_list]
+        if Rails.configuration.community_email
+          CommunityMailer.event_submitted(@resource).deliver
+        end
+        TwitterService.new.create(@resource, errors)
+        LinkedinService.new.create(@resource, errors)
+      end
       if !errors.empty?
         ErrorMailer.errors(errors, "Posting").deliver
       end

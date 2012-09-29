@@ -9,9 +9,7 @@
       </ul>
     </div>
   <% end %>
-  <% if @is_change %>
-    <%= check_box_tag :update_mailing_list, 1, true %> Update Mailing List / Twitter / LinkedIn?
-  <% end %>
+  <%= check_box_tag :update_mailing_list, 1, true %> Send To Mailing List / Twitter / LinkedIn?
   <p>
     <%= f.label :title %>*<br />
     <%= f.text_field :title, :maxlength => 255, :size => 40 %>
