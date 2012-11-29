@@ -10,7 +10,7 @@ class Location < ActiveRecord::Base
   validates :directions, :length => {:maximum => 65536}
   
   def full_address
-    address + (address2 ? (', ' + address2) : '') + ', ' + city + ', ' + state + ' ' + postal_code
+    address + (address2 && !address2.strip.empty? ? (', ' + address2) : '') + ', ' + city + ', ' + state + ' ' + postal_code
   end
 
   def name_and_address

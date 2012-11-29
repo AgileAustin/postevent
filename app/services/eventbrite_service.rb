@@ -110,6 +110,7 @@ private
     params['price'] = "0.00"
     params['quantity_available'] = event.capacity
     params['end_date'] = get_date_time(event.date, event.start)
+    params['max'] = 1
     params
   end
   
