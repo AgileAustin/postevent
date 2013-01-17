@@ -68,11 +68,3 @@ Twitter
 =======
 
 <%= @event.group_title %> - <%= @date %> - <%= @event.eventbrite_url %>
-
-
-<% if !@event.special_instructions.strip.empty? %>
-Special Instructions
-====================
-
-<%= @event.special_instructions %>
-<% end %>

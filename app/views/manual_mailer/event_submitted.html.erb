@@ -77,13 +77,4 @@ To Register (and for more info): <%= @event.eventbrite_url %>.<br/>
 <br/>
 <b><%= link_to 'Twitter', 'http://twitter.com' %></b><br/>
 <br/>
-<%= @event.group_title %> - <%= @date %> - <%= @event.eventbrite_url %><br/>
-<br/>
-<br/>
-<% if !@event.special_instructions.strip.empty? %>
-<b>Special Instructions</b><br/>
-<br/>
-<% @event.special_instructions.split("\n").each do |str| %>
-<%= str %><br/>
-<% end %>
-<% end %>
+<%= @event.group_title %> - <%= @date %> - <%= @event.eventbrite_url %>
