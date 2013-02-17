@@ -169,6 +169,7 @@ private
         "<br/>" +
         "For more information/questions, please send email to: <a href='mailto:#{event.sig.email}'>#{event.sig.email}</a>.<br/>"
     end
+    result += ' ' # Unclear why this is necessary, but the description won't post without it
   end
 
   def get_params
