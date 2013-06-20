@@ -16,7 +16,7 @@
   </p>
   <p>
     <%= f.label :sig_id %>*<br />
-    <%= f.collection_select :sig_id, Sig.all, :id, :name, :include_blank => true %>
+    <%= f.collection_select :sig_id, Sig.order('name'), :id, :name, :include_blank => true %>
   </p>
   <p>
     <%= f.label :description %>*<br />
@@ -36,7 +36,7 @@
   </p>
   <p>
     <%= f.label :location %>*<br />
-    <%= f.collection_select :location_id, Location.all, :id, :name, :include_blank => true %>
+    <%= f.collection_select :location_id, Location.order('name'), :id, :name, :include_blank => true %>
   </p>
   <p>
     <%= f.label :capacity %>*<br />
