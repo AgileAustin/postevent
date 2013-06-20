@@ -15,6 +15,7 @@ class Event < ActiveRecord::Base
   validates :special_instructions, :length => {:maximum => 65536}
   validates :sig, :presence => true
   validates :location, :presence => true
+  validate :validate_date
   
   def group_title
     sig.name + " - " + title
@@ -22,5 +23,9 @@ class Event < ActiveRecord::Base
   
   def eventbrite_url
     "http://www.eventbrite.com/event/" + (eventbrite_id ? eventbrite_id : '')
+  end
+  
+  def validate_date
+    errors.add("Date", "must be in future.") unless date.future?
   end
 end
