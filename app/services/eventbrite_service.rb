@@ -95,7 +95,7 @@ private
     params['description'] = get_event_details(event)
     params['start_date'] = get_date_time(event.date, event.start)
     params['end_date'] = get_date_time(event.date, event.end)
-    params['timezone'] = 'GMT' + (event.date.to_time.dst? ? Rails.configuration.timezone_offset_dst : Rails.configuration.timezone_offset)
+    params['timezone'] = Rails.configuration.timezone
     params['privacy'] = 1
     params['venue_id'] = event.location.eventbrite_id
     params['capacity'] = event.capacity
