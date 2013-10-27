@@ -4,10 +4,13 @@ Postevent::Application.routes.draw do
   resources :events
   resources :sigs
   resources :locations
+  resources :linkedin
 
-  root :to => "events#new"
+  root :to => "users#authorize"
   match 'logout', :to => 'sessions#destroy', :as => "logout"
   match 'users/:id/reset_password' => 'users#reset_password', :as => :reset_password
+  match 'authorize', :to => 'users#authorize', :as => "authorize"
+  match 'accept', :to => 'users#accept', :as => "accept"
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

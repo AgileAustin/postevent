@@ -1,27 +1,26 @@
 class LinkedinService < Service
-  require "app/utils/formatter.rb"
-  require "linkedin"
+  require "./app/utils/formatter.rb"
+  require "linkedin-oauth2"
 
-  def create_event(event)
-    post_event(event)
+  def create_event(user, event)
+    post_event(user, event)
   end
 
-  def update_event(event)
-    post_event(event, 'Updated: ')
+  def update_event(user, event)
+    post_event(user, event, 'Updated: ')
   end
 
 private
   
-  def post_event(event, prefix='')
-    if Rails.configuration.linkedin_consumer_key
+  def post_event(user, event, prefix='')
+    if Rails.configuration.linkedin_consumer_key    
       params = {
         'title' => prefix + event.group_title,
         'summary' => get_event_details(event)
       }
       
-      client = LinkedIn::Client.new(Rails.configuration.linkedin_consumer_key, Rails.configuration.linkedin_consumer_secret)
-      client.authorize_from_access(Rails.configuration.linkedin_oauth_token, Rails.configuration.linkedin_oauth_token_secret)
-      json_txt = client.post_to_group(Rails.configuration.linkedin_group_id, params)
+      client = LinkedIn::Client.new(Rails.configuration.linkedin_consumer_key, Rails.configuration.linkedin_consumer_secret, user.linkedin_token)
+      client.post_to_group(Rails.configuration.linkedin_group_id, params)
     end
   end
   

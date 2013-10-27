@@ -3,7 +3,7 @@ class WordpressService < Service
   # It also needs this change to the plugin: https://github.com/Achillefs/wp-json-api/commit/7d1f8b4f963c4080a4f8923951e24e5b65740117
   # It also requires the changes detailed at the bottom of this file
   
-  require "app/utils/formatter.rb"
+  require "./app/utils/formatter.rb"
   include HTTParty
 
   @@base_uri = Rails.configuration.wordpress_base_url

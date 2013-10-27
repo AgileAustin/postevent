@@ -1,4 +1,8 @@
 class UsersController < ResourceController
+  STATE = 'f9183a6b975d3aeafeca228467b567' #A unique long string that is not easy to guess
+  ACCEPT_URI = Rails.configuration.post_url + '/accept'
+  START_URI = Rails.configuration.post_url + '/events/new'
+
   def create
     @password = random_password
     params[resource_parameter][:password] = @password
@@ -18,9 +22,44 @@ class UsersController < ResourceController
     flash[:notice] = "Password has been reset.  New password has been emailed to user."
     redirect_to :action => "index"
   end
+
+# LinkedIn authorization
+
+  def authorize
+    if current_user.authorized_for_linkedin
+      redirect_to START_URI
+    else
+      #Redirect your user in order to authenticate
+      redirect_to client.auth_code.authorize_url(:scope => 'rw_groups', 
+                                                 :state => STATE, 
+                                                 :redirect_uri => ACCEPT_URI)
+    end
+  end
+ 
+  # This method will handle the callback once the user authorizes your application
+  def accept
+    if !params[:state].eql?(STATE)
+      #Reject the request as it may be a result of CSRF
+      raise "Possible Cross Site Request Forgery Attempt"
+    else
+      token = client.auth_code.get_token(params[:code], :redirect_uri => ACCEPT_URI)
+      current_user.update_attributes({:linkedin_token => token.token, :linkedin_token_expiration => DateTime.now + token.expires_in.seconds})
+      redirect_to START_URI
+    end
+  end
   
 private
 
+  def client
+    OAuth2::Client.new(
+       Rails.configuration.linkedin_consumer_key, 
+       Rails.configuration.linkedin_consumer_secret, 
+       :authorize_url => "/uas/oauth2/authorization?response_type=code", #LinkedIn's authorization path
+       :token_url => "/uas/oauth2/accessToken", #LinkedIn's access token path
+       :site => "https://www.linkedin.com"
+     )
+  end
+  
   def random_password
     (0...8).map{(65+rand(25)).chr}.join
   end

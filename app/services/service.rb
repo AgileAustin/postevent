@@ -1,15 +1,23 @@
 class Service
-  def create(event, errors)
+  def create(event, errors, user = nil)
     begin
-      create_event(event)
+      if user == nil
+        create_event(event)
+      else
+        create_event(user, event)
+      end
     rescue => e
       add_error(errors, e)
     end
   end
   
-  def update(event, errors)
+  def update(event, errors, user = nil)
     begin
-      update_event(event)
+      if user == nil
+        update_event(event)
+      else
+        update_event(user, event)
+      end
     rescue => e
       add_error(errors, e)
     end

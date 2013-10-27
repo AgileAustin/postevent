@@ -8,7 +8,11 @@
 </head>
 <body>
 <% flash.each do |name, msg| %>
-  <%= content_tag :div, msg, :id => "flash_#{name}" %>
+  <% if name == :unauthorized %>
+    <span style="color: red"><%= msg %>  To authorize, please go <a href="<%=Rails.configuration.post_url%>/authorize">here</a>.</span>
+  <% else %>
+    <%= content_tag :div, msg, :id => "flash_#{name}" %>
+  <% end %>
 <% end %>
 
 <%= yield %>

@@ -1,5 +1,5 @@
 class TwitterService < Service
-  require "app/utils/formatter.rb"
+  require "./app/utils/formatter.rb"
   include Twitter
   
   Twitter.configure do |config|

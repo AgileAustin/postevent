@@ -97,7 +97,5 @@ Postevent::Application.configure do
   config.wordpress_category = nil
   config.linkedin_consumer_key = nil
   config.linkedin_consumer_secret = nil
-  config.linkedin_oauth_token = nil
-  config.linkedin_oauth_token_secret = nil
   config.linkedin_group_id = nil
 end

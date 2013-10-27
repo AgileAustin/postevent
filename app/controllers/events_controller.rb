@@ -1,4 +1,9 @@
 class EventsController < ResourceController
+  def new
+    warn_not_authenticated
+    super
+  end
+  
   def create
     params[resource_parameter][:user_id] = current_user.id
     if super
@@ -12,7 +17,7 @@ class EventsController < ResourceController
           CommunityMailer.event_submitted(@resource).deliver
         end
         TwitterService.new.create(@resource, errors)
-        LinkedinService.new.create(@resource, errors)
+        LinkedinService.new.create(@resource, errors, current_user)
       end
       if !errors.empty?
         ErrorMailer.errors(errors, "Posting").deliver
@@ -22,6 +27,7 @@ class EventsController < ResourceController
 
   def edit
     @is_change = true
+    warn_not_authenticated
     super
   end
 
@@ -37,7 +43,7 @@ class EventsController < ResourceController
           CommunityMailer.event_submitted(@resource, {:prefix => "Updated: "}).deliver 
         end
         TwitterService.new.update(@resource, errors)
-        LinkedinService.new.update(@resource, errors)
+        LinkedinService.new.update(@resource, errors, current_user)
       end
       if !errors.empty?
         ErrorMailer.errors(errors, "Updating").deliver
@@ -62,6 +68,12 @@ private
     @resource.end = Time.local(2012,1,1,13,0)
     @resource
   end  
+
+  def warn_not_authenticated
+    if !current_user.authorized_for_linkedin
+      flash[:unauthorized] = 'Warning: You have not authorized Postevent to post to LinkedIn.'
+    end
+  end
   
   def created_message
     super + " Posted to Eventbrite, mailing list, Google calendar, web site, Twitter and LinkedIn."

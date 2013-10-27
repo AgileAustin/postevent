@@ -1,5 +1,5 @@
 class EventbriteService < Service
-  require "app/utils/formatter.rb"
+  require "./app/utils/formatter.rb"
   include HTTParty
   @@base_uri = 'https://www.eventbrite.com/xml/'
   
