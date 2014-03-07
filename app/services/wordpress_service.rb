@@ -10,9 +10,10 @@ class WordpressService < Service
   
   def create_event(event)
     if is_enabled
-      response = self.class.get(@@base_uri + 'create_post', :query => get_params(event))
-      event.wordpress_id = response['post']['id']
-      event.save
+      @@base_uri.each_line(',') {|uri| self.class.get(uri + 'create_post', :query => get_params(event))}
+#      response = self.class.get(@@base_uri + 'create_post', :query => get_params(event))
+#      event.wordpress_id = response['post']['id']
+#      event.save
     end
   end
   
@@ -21,7 +22,7 @@ class WordpressService < Service
       if (event.wordpress_id)
         params = get_params(event)
         params['ID'] = event.wordpress_id
-        self.class.get(@@base_uri + 'create_post', :query => params)
+        @@base_uri.each_line(',') {|uri| self.class.get(uri + 'create_post', :query => params)}
       else
         create_event(event)
       end
