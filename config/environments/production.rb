@@ -93,6 +93,7 @@ Postevent::Application.configure do
   config.google_api_access_token = nil
   config.wordpress_username = nil
   config.wordpress_password = nil
+  config.wordpress_old_base_url = nil
   config.wordpress_base_url = nil # example http://www.example.com/api/
   config.wordpress_category = nil
   config.linkedin_consumer_key = nil

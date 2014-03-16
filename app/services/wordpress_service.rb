@@ -10,19 +10,21 @@ class WordpressService < Service
   
   def create_event(event)
     if is_enabled
-      @@base_uri.each_line(',') {|uri| self.class.get(uri + 'create_post', :query => get_params(event))}
-#      response = self.class.get(@@base_uri + 'create_post', :query => get_params(event))
-#      event.wordpress_id = response['post']['id']
-#      event.save
+      if Rails.configuration.wordpress_old_base_url != nil
+        self.class.get(Rails.configuration.wordpress_old_base_url + 'create_post', :query => get_params(event, Rails.configuration.wordpress_old_base_url, 'create_post'))
+      end
+      response = self.class.get(@@base_uri + 'create_post', :query => get_params(event, @@base_uri, 'create_post'))
+      event.wordpress_id = response['post']['id']
+      event.save
     end
   end
   
   def update_event(event)
     if is_enabled
       if (event.wordpress_id)
-        params = get_params(event)
-        params['ID'] = event.wordpress_id
-        @@base_uri.each_line(',') {|uri| self.class.get(uri + 'create_post', :query => params)}
+        params = get_params(event, @@base_uri, 'update_post')
+        params['id'] = event.wordpress_id
+        self.class.get(@@base_uri + 'posts/update_post', :query => params)
       else
         create_event(event)
       end
@@ -31,17 +33,18 @@ class WordpressService < Service
   
 private
 
-  def get_params(event)
+  def get_params(event, uri, method)
     params = get_event_params(event)
-    params['nonce'] = get_main_nonce
-    params['author'] = Rails.configuration.wordpress_username
+    params['nonce'] = get_main_nonce(uri, method)
+    params['user_name'] = Rails.configuration.wordpress_username
     params['user_password'] = Rails.configuration.wordpress_password
+    params['author'] = Rails.configuration.wordpress_username
     params
   end
 
-  def get_main_nonce
-      params = {:controller => 'posts', :method => 'create_post'}
-      result = self.class.get(@@base_uri + 'get_nonce', :query => params)
+  def get_main_nonce(uri, method)
+      params = {:controller => 'posts', :method => method}
+      result = self.class.get(uri + 'get_nonce', :query => params)
       result['nonce']
   end
 
@@ -140,4 +143,83 @@ end
         strlen(strstr($key,'tags'))==0)//it must be a custom_field, so add it
       $_POST[$key] = $value;
     }
+    
+  Change posts.php create_post() to:
+  public function create_post() {
+    global $json_api;
+
+    if (!$json_api->query->author) {
+      $json_api->error("You must include 'author' var in your request.");
+    }
+    if (!$json_api->query->nonce) {
+      $json_api->error("You must include a 'nonce' value to create posts. Use the `get_nonce` Core API method.");
+    }
+    $nonce_id = $json_api->get_nonce_id('posts', 'create_post');
+    if (!wp_verify_nonce($json_api->query->nonce, $nonce_id)) {
+      $json_api->error("Your 'nonce' value was incorrect. Use the 'get_nonce' API method.");
+    }
+
+    if ($json_api->query->user_name && $json_api->query->user_password) {
+      $user = wp_authenticate($json_api->query->user_name, $json_api->query->user_password);
+      if (is_wp_error($user)) {
+        $json_api->error("Invalid username and/or password.", 'error', '401');
+        remove_action('wp_login_failed', $json_api->query->user_name);
+      }
+      if (!user_can($user->ID,'edit_posts')) {
+        $json_api->error("You need to login with a user capable of creating posts.");
+      }
+    } else {
+      if (!current_user_can('edit_posts')) {
+        $json_api->error("You need to login with a user capable of creating posts.");
+      }
+    }
+
+    nocache_headers();
+    $post = new JSON_API_Post();
+    $post->set_author_value($json_api->query->author);
+    $id = $post->create($_REQUEST);
+    if (empty($id)) {
+      $json_api->error("Could not create post.");
+    }
+    return array(
+      'post' => $post
+    );
+  }
+  
+  And posts.php update_post() to:
+  public function update_post() {
+    global $json_api;
+    $post = $json_api->introspector->get_current_post();
+    if (empty($post)) {
+      $json_api->error("Post not found.");
+    }
+    if (!$json_api->query->nonce) {
+      $json_api->error("You must include a 'nonce' value to update posts. Use the `get_nonce` Core API method.");
+    }
+    $nonce_id = $json_api->get_nonce_id('posts', 'update_post');
+    if (!wp_verify_nonce($json_api->query->nonce, $nonce_id)) {
+      $json_api->error("Your 'nonce' value was incorrect. Use the 'get_nonce' API method.");
+    }
+    if ($json_api->query->user_name && $json_api->query->user_password) {
+      $user = wp_authenticate($json_api->query->user_name, $json_api->query->user_password);
+      if (is_wp_error($user)) {
+        $json_api->error("Invalid username and/or password.", 'error', '401');
+        remove_action('wp_login_failed', $json_api->query->user_name);
+      }
+      if (!user_can($user->ID,'edit_posts')) {
+        $json_api->error("You need to login with a user capable of creating posts.");
+      }
+    } else {
+      if (!current_user_can('edit_posts')) {
+        $json_api->error("You need to login with a user capable of creating posts.");
+      }
+    }
+
+    nocache_headers();
+    $post = new JSON_API_Post($post);
+    $post->update($_REQUEST);
+    return array(
+      'post' => $post
+    );
+  }
 =end
