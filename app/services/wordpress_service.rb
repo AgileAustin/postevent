@@ -1,6 +1,5 @@
 class WordpressService < Service
-  # Note: This service requires the Wordpress site to have the JSON API plugin and the Event Calendar plugin.
-  # It also needs this change to the plugin: https://github.com/Achillefs/wp-json-api/commit/7d1f8b4f963c4080a4f8923951e24e5b65740117
+  # Note: This service requires the Wordpress site to have the JSON API plugin and optionally the Event Calendar plugin.
   # It also requires the changes detailed at the bottom of this file
   
   require "./app/utils/formatter.rb"
