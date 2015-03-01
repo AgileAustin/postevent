@@ -1,28 +1,30 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.1.3' # was 3.2.5
+gem 'rails', '3.2.21' # was 3.2.5
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'mysql2'
 gem 'json'
-gem 'bcrypt-ruby'
+gem 'multi_json', '1.3.6'
+gem 'bcrypt-ruby', '3.0.0'
 gem 'httparty'
-gem 'twitter', '>= 4.0'
-gem 'google-api-client'
-gem 'oauth'
-gem 'oauth2'
+gem 'twitter', '= 4.0'
+gem 'faraday', '=0.8.4'
+gem 'google-api-client', '= 0.6.4'
+gem 'oauth2', '=0.9.2'
 gem 'linkedin-oauth2'
-gem 'certified'
-#gem 'execjs'
-#gem 'therubyracer'
+gem 'execjs'
+gem 'therubyracer'
+gem 'thin'
+
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.1.6' # was 3.2.3
-  gem 'coffee-rails', '~> 3.1.1' # was 3.2.1
+  gem 'sass-rails' # was 3.2.3
+  gem 'coffee-rails' # was 3.2.1
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby

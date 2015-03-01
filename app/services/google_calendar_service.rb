@@ -109,7 +109,7 @@ private
   def get_date_time(date, time) # ex:" '2011-06-03T10:00:00.000-07:00'
     date.year.to_s + '-' + to_double_digit(date.month) + '-' + to_double_digit(date.day) + 'T' +
       to_double_digit(time.hour) + ':' + to_double_digit(time.min) + ':' + to_double_digit(time.sec) + ".000" +
-      (date.to_time.dst? ? Rails.configuration.timezone_offset_dst : Rails.configuration.timezone_offset) + ":00"
+      (Time.now.dst? ? Rails.configuration.timezone_offset_dst : Rails.configuration.timezone_offset) + ":00"
   end
   
   def to_double_digit(number)
@@ -125,6 +125,7 @@ private
     end
     result += 
       "\n" +
-      "To Register (and for more info): #{event.eventbrite_url}"
+      "To Register (and for more info):\n" +
+      "<a href='#{event.eventbrite_url}'>#{event.eventbrite_url}</a>"
   end
 end

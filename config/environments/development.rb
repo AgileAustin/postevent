@@ -48,8 +48,7 @@ Postevent::Application.configure do
   config.default_city = "Austin"
   config.default_state = "TX"
   config.default_country = "US"
-  config.eventbrite_app_key = nil
-  config.eventbrite_user_key = nil
+  config.eventbrite_token = nil
   config.eventbrite_organizer_id = nil
   config.community_email = nil
   config.twitter_consumer_key = nil

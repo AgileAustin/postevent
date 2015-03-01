@@ -1,49 +1,53 @@
 class EventbriteService < Service
   require "./app/utils/formatter.rb"
   include HTTParty
-  @@base_uri = 'https://www.eventbrite.com/xml/'
+  @@base_uri = 'https://www.eventbriteapi.com/v3/'
   
   def create_venue(location)
     if is_enabled
       params = get_location_params(location)
-      params['organizer_id'] = Rails.configuration.eventbrite_organizer_id
-      result = self.class.get(@@base_uri + 'venue_new', {:query => params})      
-      location.eventbrite_id = result['process']['id']
+      result = self.class.post(@@base_uri + 'venues/', params)      
+      if result['error_description']
+        raise result['error_description']
+      end
+      location.eventbrite_id = result['id']
       location.save
     end
   end
   
   def update_venue(location)
-    if is_enabled
-      if location.eventbrite_id == nil
-        create_venue(location)
-      else
-        params = get_location_params(location)
-        params['id'] = location.eventbrite_id
-        self.class.get(@@base_uri + 'venue_update', {:query => params})
-      end
-    end
+    create_venue(location) # cannot update
   end
 
   def create_event(event)
     if is_enabled
       params = get_event_params(event)
-      params['organizer_id'] = Rails.configuration.eventbrite_organizer_id
-      result = self.class.get(@@base_uri + 'event_new', {:query => params})
-      if result['error']
-        raise result['error']['error_message']
+      result = self.class.post(@@base_uri + 'events/', params)
+      if result['error_description']
+        raise result['error_description']
       end
-      event.eventbrite_id = result['process']['id']
+      event.eventbrite_id = result['id']
       event.save
       create_ticket(event)
+      publish_event(event)
     end
   end
   
   def create_ticket(event)
       params = get_ticket_params(event)
-      result = self.class.get(@@base_uri + 'ticket_new', {:query => params})
-      event.ticket_eventbrite_id = result['process']['id']
+      result = self.class.post(@@base_uri + 'events/' + event.eventbrite_id + '/ticket_classes/', params)
+      if result['error_description']
+        raise result['error_description']
+      end
+      event.ticket_eventbrite_id = result['id']
       event.save
+  end
+  
+  def publish_event(event)
+      result = self.class.post(@@base_uri + 'events/' + event.eventbrite_id + '/publish/', get_params)
+      if result['error_description']
+        raise result['error_description']
+      end
   end
   
   def update_event(event)
@@ -52,8 +56,10 @@ class EventbriteService < Service
         create_event(event)
       else
         params = get_event_params(event)
-        params['id'] = event.eventbrite_id
-        self.class.get(@@base_uri + 'event_update', {:query => params})
+        result = self.class.post(@@base_uri + 'events/' + event.eventbrite_id + '/', params)
+        if result['error_description']
+          raise result['error_description']
+        end
         update_ticket(event)
       end
     end
@@ -64,59 +70,89 @@ class EventbriteService < Service
         create_ticket(event)
       else
         params = get_ticket_params(event)
-        params['id'] = event.ticket_eventbrite_id
-        self.class.get(@@base_uri + 'ticket_update', {:query => params})
+        result = self.class.post(@@base_uri + 'events/' + event.eventbrite_id + '/ticket_classes/' + event.ticket_eventbrite_id + '/', params)
+        if result['error_description']
+          raise result['error_description']
+        end
       end
   end
   
 private
 
   def is_enabled
-    Rails.configuration.eventbrite_app_key != nil && Rails.configuration.eventbrite_user_key != nil
+    Rails.configuration.eventbrite_token != nil
   end
 
   def get_location_params(location)
     params = get_params
-    params['name'] = location.name
-    params['address'] = location.address
-    if location.address2
-      params['address_2'] = location.address2
-    end
-    params['city'] = location.city
-    params['region'] = location.state
-    params['postal_code'] = location.postal_code
-    params['country_code'] = Rails.configuration.default_country
+    params[:body] = {
+      'venue' => {
+        'name' => location.name,
+        'address' => {
+          'address_1' => location.address,
+          'address_2' => location.address2,
+          'city' => location.city,
+          'region' => location.state,
+          'postal_code' => location.postal_code,
+          'country' => Rails.configuration.default_country
+        }
+      }
+    }.to_json
     params
   end
 
   def get_event_params(event)
     params = get_params
-    params['title'] = event.group_title
-    params['description'] = get_event_details(event)
-    params['start_date'] = get_date_time(event.date, event.start)
-    params['end_date'] = get_date_time(event.date, event.end)
-    params['timezone'] = Rails.configuration.timezone
-    params['privacy'] = 1
-    params['venue_id'] = event.location.eventbrite_id
-    params['capacity'] = event.capacity
-    params['status'] = 'live'
+    params[:body] = {
+      'event' => {
+        'name' => {
+          'html' => event.group_title
+        },
+        'description' => {
+          'html' => get_event_details(event)
+        },
+        'start' => {
+          'timezone' => Rails.configuration.timezone,
+          'utc' => get_date_time(event.date, event.start)
+        },
+        'end' => {
+          'timezone' => Rails.configuration.timezone,
+          'utc' => get_date_time(event.date, event.end)
+        },
+        'currency' => 'USD',
+        'venue_id' => event.location.eventbrite_id,
+        'capacity' => event.capacity,
+        'listed' => true,
+        'shareable' => true,
+        'organizer_id' => Rails.configuration.eventbrite_organizer_id
+      }
+    }.to_json
     params
   end
 
   def get_ticket_params(event)
     params = get_params
-    params['event_id'] = event.eventbrite_id
-    params['name'] = "Free Ticket"
-    params['price'] = "0.00"
-    params['quantity_available'] = event.capacity
-    params['end_date'] = get_date_time(event.date, event.start)
-    params['max'] = 1
+    params[:body] = {
+      'ticket_class' => {
+        'name' => "Free Ticket",
+        'quantity_total' => event.capacity,
+        'free' => true,
+        'maximum_quantity' => 1
+      }
+    }.to_json
     params
   end
   
   def get_date_time(date, time)
-    date.year.to_s + '-' + to_double_digit(date.month) + '-' + to_double_digit(date.day) + ' ' +
-      to_double_digit(time.hour) + ':' + to_double_digit(time.min) + ':' + to_double_digit(time.sec)
+    offset = (date.to_time.dst? ? Rails.configuration.timezone_offset_dst : Rails.configuration.timezone_offset).to_i
+    if time.hour - offset >= 24
+      date = date + 1
+    elsif time.hour - offset < 0
+      date = date - 1
+    end
+    time = time - offset * 60 * 60
+    date.year.to_s + '-' + to_double_digit(date.month) + '-' + to_double_digit(date.day) + 'T' +
+      to_double_digit(time.hour) + ':' + to_double_digit(time.min) + ':' + to_double_digit(time.sec) + 'Z'
   end
   
   def to_double_digit(number)
@@ -173,6 +209,14 @@ private
   end
 
   def get_params
-    {:app_key => Rails.configuration.eventbrite_app_key, :user_key => Rails.configuration.eventbrite_user_key }
+    {
+        :query => {
+            'token' => Rails.configuration.eventbrite_token
+        },
+        :headers => {
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json'
+        }
+    }
   end
 end
