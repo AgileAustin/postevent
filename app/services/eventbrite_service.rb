@@ -144,7 +144,7 @@ private
   end
   
   def get_date_time(date, time)
-    offset = (date.to_time.dst? ? Rails.configuration.timezone_offset_dst : Rails.configuration.timezone_offset).to_i
+    offset = (Time.use_zone(Rails.configuration.timezone) {date.to_time.in_time_zone.dst?} ? Rails.configuration.timezone_offset_dst : Rails.configuration.timezone_offset).to_i
     if time.hour - offset >= 24
       date = date + 1
     elsif time.hour - offset < 0
