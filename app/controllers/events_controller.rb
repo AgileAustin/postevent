@@ -9,6 +9,7 @@ class EventsController < ResourceController
     if super
       errors = []
       EventbriteService.new.create(@resource, errors)
+      MeetupService.new.create(@resource, errors)
       ManualMailer.event_submitted(@resource, {:prefix => "Posted: "}).deliver 
       GoogleCalendarService.new.create(@resource, errors)
       WordpressService.new.create(@resource, errors)
@@ -35,6 +36,7 @@ class EventsController < ResourceController
     if super
       errors = []
       EventbriteService.new.update(@resource, errors)
+      MeetupService.new.update(@resource, errors)
       ManualMailer.event_submitted(@resource, {:prefix => "Updated: "}).deliver 
       GoogleCalendarService.new.update(@resource, errors)
       WordpressService.new.update(@resource, errors)
@@ -70,7 +72,7 @@ private
   end  
 
   def warn_not_authenticated
-    if !current_user.authorized_for_linkedin
+    if Rails.configuration.linkedin_group_id != nil && !current_user.authorized_for_linkedin
       flash[:unauthorized] = 'Warning: You have not authorized Postevent to post to LinkedIn.'
     end
   end

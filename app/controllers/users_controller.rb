@@ -26,7 +26,7 @@ class UsersController < ResourceController
 # LinkedIn authorization
 
   def authorize
-    if current_user.authorized_for_linkedin
+    if Rails.configuration.linkedin_group_id == nil || current_user.authorized_for_linkedin
       redirect_to START_URI
     else
       #Redirect your user in order to authenticate
