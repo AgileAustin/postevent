@@ -78,10 +78,10 @@ private
   end
   
   def created_message
-    super + " Posted to Eventbrite, mailing list, Google calendar, web site, Twitter and LinkedIn."
+    super + " Posted to Eventbrite, Meetup, mailing list, Google calendar, web site and Twitter."
   end
   
   def updated_message
-    super + " Updated on Eventbrite, Google calendar and web site." + (params[:update_mailing_list] ? " Reposted to mailing list, Twitter and LinkedIn." : "")
+    super + " Updated on Eventbrite, Meetup, Google calendar and web site." + (params[:update_mailing_list] ? " Reposted to mailing list and Twitter." : "")
   end
 end
