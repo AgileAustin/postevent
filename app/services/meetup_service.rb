@@ -75,6 +75,7 @@ private
   end
 
   def get_event_params(event)
+    offset = Time.use_zone(Rails.configuration.timezone) {date.to_time.in_time_zone.dst?} ? Rails.configuration.timezone_offset_dst : Rails.configuration.timezone_offset
     params = get_params
     params[:query] = {
       'key' => Rails.configuration.meetup_apikey,
@@ -86,7 +87,7 @@ private
       'rsvp_limit' => event.capacity,
       'waitlisting' => 'auto',
       'guest_limit' => 0,
-      'time' => DateTime.new(event.date.year, event.date.month, event.date.day, event.start.hour, event.start.min, event.start.sec, event.start.zone).strftime('%Q').to_i,
+      'time' => DateTime.new(event.date.year, event.date.month, event.date.day, event.start.hour, event.start.min, event.start.sec, offset).strftime('%Q').to_i,
       'duration' => (event.end - event.start).to_i * 1000
     }
     puts params
