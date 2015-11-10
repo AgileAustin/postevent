@@ -75,7 +75,7 @@ private
   end
 
   def get_event_params(event)
-    offset = Time.use_zone(Rails.configuration.timezone) {date.to_time.in_time_zone.dst?} ? Rails.configuration.timezone_offset_dst : Rails.configuration.timezone_offset
+    offset = Time.use_zone(Rails.configuration.timezone) {event.date.to_time.in_time_zone.dst?} ? Rails.configuration.timezone_offset_dst : Rails.configuration.timezone_offset
     params = get_params
     params[:query] = {
       'key' => Rails.configuration.meetup_apikey,
