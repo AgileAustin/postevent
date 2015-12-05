@@ -67,6 +67,7 @@ Postevent::Application.configure do
   
   # Application specific configuration
   config.email_contact = "noreply@gmail.com"
+  config.error_contact = nil
   config.organization = "postevent"
   config.timezone = "America/Chicago"
   config.timezone_offset = "-06"

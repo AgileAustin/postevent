@@ -72,9 +72,9 @@ Date/Time: <%= @date %> <%= @start %> - <%= @end %><br/>
 <br/>
 Venue: <%= @event.location.name_and_address %><br/>
 <br/>
-To Register (and for more info): <%= @event.eventbrite_url %>.<br/>
+To Register (and for more info): <%= @event.meeting_url %>.<br/>
 <br/>
 <br/>
 <b><%= link_to 'Twitter', 'http://twitter.com' %></b><br/>
 <br/>
-<%= @event.group_title %> - <%= @date %> - <%= @event.eventbrite_url %>
+<%= @event.group_title %> - <%= @date %> - <%= @event.meeting_url %>

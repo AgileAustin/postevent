@@ -3,6 +3,10 @@ class ErrorMailer < ActionMailer::Base
   
   def errors(errors, type)
     @errors = errors
-    mail(:to => Rails.configuration.email_contact, :subject => "Errors " + type)
+    mail(:to => contact, :subject => "Errors " + type)
   end  
+  
+  def contact
+    Rails.configuration.error_contact ? Rails.configuration.error_contact : Rails.configuration.email_contact
+  end
 end

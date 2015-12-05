@@ -94,7 +94,7 @@ private
     end
     result += "<br/>Date/Time: #{formatter.format_date(event.date)} #{formatter.format_time(event.start)} - #{formatter.format_time(event.end)}<br/><br/>"
     result += "Venue: #{event.location.name_and_address}<br/><br/>"
-    result += "To Register (and for more info): <a href='#{event.eventbrite_url}'>#{event.eventbrite_url}</a>.<br/>"
+    result += "To Register (and for more info): <a href='#{event.meeting_url}'>#{event.meeting_url}</a>.<br/>"
   end
 end
 

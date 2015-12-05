@@ -34,6 +34,6 @@ private
     end
     result += "\nDate/Time: #{formatter.format_date(event.date)} #{formatter.format_time(event.start)} - #{formatter.format_time(event.end)}\n\n"
     result += "Venue: #{event.location.name_and_address}\n\n"
-    result += "To Register (and for more info): #{event.eventbrite_url}.\n"
+    result += "To Register (and for more info): #{event.meeting_url}.\n"
   end
 end

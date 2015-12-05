@@ -24,7 +24,7 @@ class TwitterService < Service
   def tweet(event, prefix='')
     formatter = Formatter.new
     first_part = prefix + event.sig.name + " - "
-    last_part = " - #{formatter.format_date(event.date)} - #{event.eventbrite_url}"
+    last_part = " - #{formatter.format_date(event.date)} - #{event.meeting_url}"
     max_size = 140 - first_part.length - last_part.length
     middle = event.title.length>max_size ? (event.title[0..(max_size - 4)] + '...') : event.title
     first_part + middle + last_part 

@@ -21,8 +21,28 @@ class Event < ActiveRecord::Base
     sig.name + " - " + title
   end
   
+  def meetup_url
+    if Rails.configuration.meetup_group_urlname
+      if meetup_id
+        "http://www.meetup.com/" + Rails.configuration.meetup_group_urlname + "/events/" + meetup_id + "/"
+      else
+        "http://www.meetup.com/" + Rails.configuration.meetup_group_urlname + "/"
+      end
+    else
+        "http://www.meetup.com/"
+     end
+  end
+  
   def eventbrite_url
     "http://www.eventbrite.com/event/" + (eventbrite_id ? eventbrite_id : '')
+  end
+  
+  def meeting_url
+    if meetup_id || !eventbrite_id
+      meetup_url
+    else
+      eventbrite_url
+    end
   end
   
   def validate_date

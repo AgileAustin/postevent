@@ -126,6 +126,6 @@ private
     result += 
       "\n" +
       "To Register (and for more info):\n" +
-      "<a href='#{event.eventbrite_url}'>#{event.eventbrite_url}</a>"
+      "<a href='#{event.meeting_url}'>#{event.meeting_url}</a>"
   end
 end

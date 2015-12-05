@@ -132,10 +132,9 @@ private
     end
     result +=
       "<br/>" +
-#      "<b>Seating is limited!</b><br/>" +
-#      "<br/>" +
-      "<b>Until we finish transitioning to Meetup, please sign up in Eventbrite: #{event.eventbrite_url}.</b>  "
-#      "Please make sure that you are able to attend this session.  Seating is limited and on a first-come, first-served basis.  We want to give everyone the opportunity to attend, so please only sign up if you are committed to attending.<br/>"
+      "<b>Seating is limited!</b><br/>" +
+      "<br/>" +
+      "Please make sure that you are able to attend this session.  Seating is limited and on a first-come, first-served basis.  We want to give everyone the opportunity to attend, so please only sign up if you are committed to attending.<br/>"
     if !event.sig.email.strip.empty?
       result +=
         "<br/>" +
