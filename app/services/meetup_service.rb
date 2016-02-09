@@ -33,11 +33,11 @@ class MeetupService < Service
       end
       event.meetup_id = result['id']
       event.save
-      update_event(event)
+      update_event(event, true)
     end
   end
   
-  def update_event(event)
+  def update_event(event, announce)
     if is_enabled
       if event.location.meetup_id == nil
         create_venue(event.location)
@@ -46,7 +46,9 @@ class MeetupService < Service
         create_event(event)
       else
         params = get_event_params(event)
-        params[:query]['announce'] = true
+        if announce
+	        params[:query]['announce'] = true
+	    end
         result = self.class.post(@@base_uri + '2/event/' + event.meetup_id, params)
         if result['details']
           raise result['details']
