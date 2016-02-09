@@ -37,7 +37,7 @@ class MeetupService < Service
     end
   end
   
-  def update_event(event, announce)
+  def update_event(event, announce=false)
     if is_enabled
       if event.location.meetup_id == nil
         create_venue(event.location)
