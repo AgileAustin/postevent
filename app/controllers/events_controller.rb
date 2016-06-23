@@ -9,7 +9,7 @@ class EventsController < ResourceController
     if super
       errors = []
       EventbriteService.new.create(@resource, errors)
-      MeetupService.new.create(@resource, errors)
+      MeetupService.new.create(@resource, errors, nil, params[:update_mailing_list])
       ManualMailer.event_submitted(@resource, {:prefix => "Posted: "}).deliver 
       GoogleCalendarService.new.create(@resource, errors)
       WordpressService.new.create(@resource, errors)

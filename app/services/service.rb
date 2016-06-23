@@ -1,8 +1,12 @@
 class Service
-  def create(event, errors, user = nil)
+  def create(event, errors, user = nil, announce=nil)
     begin
       if user == nil
-        create_event(event)
+        if announce == nil
+          create_event(event)
+        else
+          create_event(event, announce)
+        end
       else
         create_event(user, event)
       end
@@ -11,10 +15,14 @@ class Service
     end
   end
   
-  def update(event, errors, user = nil)
+  def update(event, errors, user = nil, announce=nil)
     begin
       if user == nil
-        update_event(event)
+        if announce == nil
+          update_event(event)
+        else
+          update_event(event, announce)
+        end
       else
         update_event(user, event)
       end

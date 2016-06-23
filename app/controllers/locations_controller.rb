@@ -8,6 +8,7 @@ class LocationsController < ResourceController
   def update
     if super
       EventbriteService.new.update_venue(@resource)
+      MeetupService.new.update_venue(@resource)
     end
   end
 

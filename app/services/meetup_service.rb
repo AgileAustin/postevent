@@ -17,10 +17,13 @@ class MeetupService < Service
   end
   
   def update_venue(location)
-    create_venue(location) # cannot update
+    if location.events.size > 0
+      create_venue(location) # cannot update
+      location.events.each {|event| update_event(event)}
+    end
   end
 
-  def create_event(event)
+  def create_event(event, announce=false)
     if is_enabled
       if event.location.meetup_id == nil
         create_venue(event.location)
@@ -33,7 +36,9 @@ class MeetupService < Service
       end
       event.meetup_id = result['id']
       event.save
-      update_event(event, true)
+      if announce
+        update_event(event, true)
+      end
     end
   end
   
