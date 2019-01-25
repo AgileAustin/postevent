@@ -1,3 +1,5 @@
+require 'logger'
+
 class UsersController < ResourceController
   STATE = 'f9183a6b975d3aeafeca228467b567' #A unique long string that is not easy to guess
   ACCEPT_URI = Rails.configuration.post_url + '/accept'
@@ -27,6 +29,7 @@ class UsersController < ResourceController
 
   def authorize
     if Rails.configuration.linkedin_group_id == nil || current_user.authorized_for_linkedin
+      logger.debug("User id in user#authorize #{session[:user_id]}")
       redirect_to START_URI
     else
       #Redirect your user in order to authenticate
