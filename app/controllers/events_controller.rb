@@ -1,3 +1,5 @@
+require 'logger'
+
 class EventsController < ResourceController
   def new
     warn_not_authenticated
@@ -72,6 +74,7 @@ private
   end  
 
   def warn_not_authenticated
+    logger.debug("events#warn_not_authenticated user id #{session[:user_id]}")
     if Rails.configuration.linkedin_group_id != nil && !current_user.authorized_for_linkedin
       flash[:unauthorized] = 'Warning: You have not authorized Postevent to post to LinkedIn.'
     end

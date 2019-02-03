@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150927213700) do
+ActiveRecord::Schema.define(:version => 20190116030342) do
+
+  create_table "associations", :force => true do |t|
+    t.string   "user_id"
+    t.string   "nonce"
+    t.datetime "nonce_expiration_time"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
 
   create_table "events", :force => true do |t|
     t.integer  "user_id"
@@ -65,6 +73,7 @@ ActiveRecord::Schema.define(:version => 20150927213700) do
     t.datetime "updated_at"
     t.string   "linkedin_token"
     t.datetime "linkedin_token_expiration"
+    t.string   "slack_user_id"
   end
 
 end

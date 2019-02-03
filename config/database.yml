@@ -5,7 +5,6 @@ development:
   pool: 5
   username: root
   password: 
-  host: 127.0.0.1
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -16,7 +15,7 @@ test:
   database: postevent_test
   pool: 5
   username: root
-  password: 
+  password:
 
 production:
   adapter: mysql2
