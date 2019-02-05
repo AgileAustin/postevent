@@ -10,7 +10,7 @@
     <th/>
   </tr>
  
-<% @resources.each do |resource| %>
+<% @resources.sort_by{ |obj| obj.date }.reverse.each do |resource| %>
   <tr>
     <td><%= resource.date %></td>
     <td><%= resource.start.hour %>:<%= (resource.start.min < 10 ? "0" : "") + resource.start.min.to_s %></td>
