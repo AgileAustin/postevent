@@ -10,6 +10,14 @@
     <th/>
   </tr>
  
+  <tr>
+    <td><%= link_to 'New Event', new_event_path %></td>
+    <td/>
+    <td/>
+    <td/>
+    <td/>
+    <td/>
+  </tr>
 <% @resources.sort_by{ |obj| obj.date }.reverse.each do |resource| %>
   <tr>
     <td><%= resource.date %></td>
@@ -20,12 +28,4 @@
     <td><%= link_to 'Edit', edit_event_path(resource) %></td>
   </tr>
 <% end %>
-  <tr>
-    <td><%= link_to 'New Event', new_event_path %></td>
-    <td/>
-    <td/>
-    <td/>
-    <td/>
-    <td/>
-  </tr>
 </table>

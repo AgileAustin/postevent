@@ -6,14 +6,14 @@
     <th></th>
   </tr>
  
-<% @resources.each do |resource| %>
-  <tr>
-    <td><%= resource.name %></td>
-    <td><%= link_to 'Edit', edit_location_path(resource) %> <%= link_to 'Delete', resource, :confirm => 'Are you sure?', :method => :delete if resource.events.empty? %></td>
-  </tr>
-<% end %>
   <tr>
     <td><%= link_to 'New Location', new_location_path %></td>
     <td/>
   </tr>
+<% @resources.each do |resource| %>
+  <tr>
+    <td><%= resource.name %></td>
+    <td><%= link_to 'Edit', edit_location_path(resource) %> <%= link_to 'Delete', resource, :confirm => 'Are you sure?', :method => :delete if (not resource.events || resource.events.empty?) %></td>
+  </tr>
+<% end %>
 </table>
