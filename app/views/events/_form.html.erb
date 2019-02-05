@@ -23,6 +23,18 @@
     <%= f.text_area :description, :size => "80x10", :maxlength => 65536 %>
   </p>
   <p>
+    <%= f.label :date %>*<br />
+    <%= f.date_select :date, :start_year => Date.today.year, :prompt => {:month => "Month", :day => "Day"} %>
+  </p>
+  <p>
+    <%= f.label :start %>*<br />
+    <%= f.time_select :start, :minute_step => 15, :ampm => true, :ignore_date => true %>
+  </p>
+  <p>
+    <%= f.label :end %>*<br />
+    <%= f.time_select :end, :minute_step => 15, :ampm => true, :ignore_date => true %>
+  </p>
+  <p>
     <%= f.label :location %>*<br />
     <%= f.collection_select :location_id, Location.order('name'), :id, :name, :include_blank => true %>
   </p>

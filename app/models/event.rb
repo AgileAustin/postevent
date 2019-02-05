@@ -17,6 +17,27 @@ class Event < ActiveRecord::Base
   validates :location, :presence => true
   validate :validate_date
   
+  def initialize(attributes={})
+    date_hack(attributes, "date")
+    time_hack(attributes, "start")
+    time_hack(attributes, "end")
+    super(attributes)
+  end
+
+  def date_hack(attributes, property)
+    keys, values = [], []
+    attributes.each_key {|k| keys << k if k =~ /#{property}/ }.sort
+    keys.each { |k| values << attributes[k]; attributes.delete(k); }
+    attributes[property] = values.join("-")
+  end
+
+  def time_hack(attributes, property)
+    keys, values = [], []
+    attributes.each_key {|k| keys << k if k =~ /#{property}/ }.sort
+    keys.each { |k| values << attributes[k]; attributes.delete(k); }
+    attributes[property] = values.join(":")
+  end
+
   def group_title
     sig.name + " - " + title
   end
