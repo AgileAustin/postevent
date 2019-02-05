@@ -4,6 +4,6 @@ class SigsController < ResourceController
   end
   
   def validate_delete(resource)
-    resource.events.empty? ? nil : 'Cannot delete SIG if it has events.'
+    (resource.events == nil || resource.events.empty?) ? nil : 'Cannot delete SIG if it has events.'
   end
 end

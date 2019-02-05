@@ -79,6 +79,6 @@ private
   end
   
   def validate_delete(resource)
-    resource.events.empty? ? nil : 'Cannot delete User if he/she has events.'
+    (resource.events == nil || resource.events.empty?) ? nil : 'Cannot delete User if he/she has events.'
   end
 end

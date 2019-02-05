@@ -9,7 +9,7 @@
 <% @resources.each do |resource| %>
   <tr>
     <td><%= resource.name %></td>
-    <td><%= link_to 'Edit', edit_sig_path(resource) %> <%= link_to 'Delete', resource, :confirm => 'Are you sure?', :method => :delete if resource.events.empty? %></td>
+    <td><%= link_to 'Edit', edit_sig_path(resource) %> <%= link_to 'Delete', resource, :confirm => 'Are you sure?', :method => :delete if (resource.events == nil || resource.events.empty?) %></td>
   </tr>
 <% end %>
   <tr>
