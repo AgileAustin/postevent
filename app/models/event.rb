@@ -16,7 +16,7 @@ class Event < ActiveRecord::Base
   validates :sig, :presence => true
   validates :location, :presence => true
   validate :validate_date
-  
+
   def initialize(attributes={})
     date_time_attributes_hack(attributes)
     super(attributes)
@@ -25,6 +25,46 @@ class Event < ActiveRecord::Base
   def update_attributes(attributes={})
     date_time_attributes_hack(attributes)
     super(attributes)
+  end
+
+  def group_title
+    sig.name + " - " + title
+  end
+
+  def meetup_url
+    if Rails.configuration.meetup_group_urlname
+      if meetup_id
+        "http://www.meetup.com/" + Rails.configuration.meetup_group_urlname + "/events/" + meetup_id + "/"
+      else
+        "http://www.meetup.com/" + Rails.configuration.meetup_group_urlname + "/"
+      end
+    else
+        "http://www.meetup.com/"
+     end
+  end
+
+  def eventbrite_url
+    "http://www.eventbrite.com/event/" + (eventbrite_id ? eventbrite_id : '')
+  end
+  
+  def meeting_url
+    if meetup_id || !eventbrite_id
+      meetup_url
+    else
+      eventbrite_url
+    end
+  end
+
+  def validate_date
+    errors.add("Date", "must be in future.") unless date.future?
+  end
+
+private
+
+  def date_time_attributes_hack(attributes)
+    date_hack(attributes, "date")
+    time_hack(attributes, "start")
+    time_hack(attributes, "end")
   end
 
   def date_hack(attributes, property)
@@ -39,45 +79,5 @@ class Event < ActiveRecord::Base
     attributes.each_key {|k| keys << k if k =~ /#{property}/ }.sort
     keys.each { |k| values << attributes[k]; attributes.delete(k); }
     attributes[property] = values.join(":")
-  end
-
-  def group_title
-    sig.name + " - " + title
-  end
-  
-  def meetup_url
-    if Rails.configuration.meetup_group_urlname
-      if meetup_id
-        "http://www.meetup.com/" + Rails.configuration.meetup_group_urlname + "/events/" + meetup_id + "/"
-      else
-        "http://www.meetup.com/" + Rails.configuration.meetup_group_urlname + "/"
-      end
-    else
-        "http://www.meetup.com/"
-     end
-  end
-  
-  def eventbrite_url
-    "http://www.eventbrite.com/event/" + (eventbrite_id ? eventbrite_id : '')
-  end
-  
-  def meeting_url
-    if meetup_id || !eventbrite_id
-      meetup_url
-    else
-      eventbrite_url
-    end
-  end
-  
-  def validate_date
-    errors.add("Date", "must be in future.") unless date.future?
-  end
-
-private
-
-  def date_time_attributes_hack(attributes)
-    date_hack(attributes, "date")
-    time_hack(attributes, "start")
-    time_hack(attributes, "end")
   end
 end
