@@ -1,5 +1,5 @@
 <h1>Events</h1>
-
+<div style="position: relative;top: -15px"><%= link_to 'New Event', new_event_path %></div>
 <table>
   <tr>
     <th>Date</th>
@@ -8,15 +8,6 @@
     <th>Title</th>
     <th>Location</th>
     <th/>
-  </tr>
- 
-  <tr>
-    <td><%= link_to 'New Event', new_event_path %></td>
-    <td/>
-    <td/>
-    <td/>
-    <td/>
-    <td/>
   </tr>
 <% @resources.sort_by{ |obj| obj.date }.reverse.each do |resource| %>
   <tr>

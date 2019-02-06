@@ -1,5 +1,5 @@
 <h1>SIGs</h1>
-
+<div style="position: relative;top: -15px"><%= link_to 'New SIG', new_sig_path %></div>
 <table>
   <tr>
     <th>Name</th>
@@ -12,8 +12,4 @@
     <td><%= link_to 'Edit', edit_sig_path(resource) %> <%= link_to 'Delete', resource, :confirm => 'Are you sure?', :method => :delete if (resource.events == nil || resource.events.empty?) %></td>
   </tr>
 <% end %>
-  <tr>
-    <td><%= link_to 'New SIG', new_sig_path %></td>
-    <td/>
-  </tr>
 </table>
