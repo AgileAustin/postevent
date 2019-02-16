@@ -43,10 +43,6 @@ private
     begin
       client = get_client
       service = get_service(client)
-      puts event.date
-      puts event.start
-      puts get_date_time(event.date - 7, event.start)
-      puts get_date_time(event.date + 7, event.start)
       result = client.execute(:api_method => service.events.list,
         :parameters => {
           'calendarId' => Rails.configuration.google_calendar_id,
