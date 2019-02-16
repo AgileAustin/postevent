@@ -7,14 +7,10 @@ gem 'grape'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'mysql2', '0.3.18'
-gem 'json'
-gem 'multi_json', '1.3.6'
 gem 'bcrypt-ruby', '3.0.0'
 gem 'httparty'
-gem 'twitter', '= 4.0'
-gem 'faraday', '0.9.0'
-gem 'google-api-client', '~> 0.7.0'
-gem 'oauth2', '=0.9.2'
+gem 'twitter', '4.8.1'
+gem 'google-api-client', '0.8.7'
 gem 'linkedin-oauth2'
 gem 'execjs'
 gem 'therubyracer'
@@ -22,7 +18,6 @@ gem 'thin'
 
 # For nonce
 gem 'openid'
-
 
 # Gems used only for assets and not required
 # in production environments by default.

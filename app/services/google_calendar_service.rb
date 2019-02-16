@@ -40,21 +40,30 @@ class GoogleCalendarService < Service
 private
 
   def get_existing_event(event)
-    client = get_client
-    service = get_service(client)
-    result = client.execute(:api_method => service.events.list,
-      :parameters => {
-        'calendarId' => Rails.configuration.google_calendar_id,
-        'q' => event.sig.name,
-        'singleEvents' => 'true',
-        'timeMin' => get_date_time(event.date - 7, event.start),
-        'timeMax' => get_date_time(event.date + 7, event.start)
-      },
-      :headers => {'Content-Type' => 'application/json'})
-    if result.data.items.length != 1
+    begin
+      client = get_client
+      service = get_service(client)
+      puts event.date
+      puts event.start
+      puts get_date_time(event.date - 7, event.start)
+      puts get_date_time(event.date + 7, event.start)
+      result = client.execute(:api_method => service.events.list,
+        :parameters => {
+          'calendarId' => Rails.configuration.google_calendar_id,
+          'q' => event.sig.name,
+          'singleEvents' => 'true',
+          'timeMin' => get_date_time(event.date - 7, event.start),
+          'timeMax' => get_date_time(event.date + 7, event.start)
+        },
+        :headers => {'Content-Type' => 'application/json'})
+      if result.data.items.length != 1
+        nil
+      else
+        result.data.items[0].id
+      end
+    rescue => detail
+      print detail.backtrace.join("\n")
       nil
-    else
-      result.data.items[0].id
     end
   end
 
@@ -74,7 +83,7 @@ private
   end
   
   def get_client
-    client = Google::APIClient.new
+    client = Google::APIClient.new(:application_name => 'PostEvent', :application_version => '1.0', user_agent: user_agent)
     client.authorization.client_id = Rails.configuration.google_api_client_id
     client.authorization.client_secret = Rails.configuration.google_api_client_secret
     client.authorization.scope = "https://www.googleapis.com/auth/calendar"
@@ -86,7 +95,18 @@ private
     end
     client
   end
-  
+
+  # Builds a custom user agent to prevent Google::APIClient from using an invalid auto-generated one
+  # @see https://github.com/google/google-api-ruby-client/blob/15853007bf1fc8ad000bb35dafdd3ca6bfa8ae26/lib/google/api_client.rb#L112
+  def user_agent
+    [
+      "PostEvent/1.0",
+      "google-api-ruby-client/#{Google::APIClient::VERSION::STRING}",
+      Google::APIClient::ENV::OS_VERSION,
+      '(gzip)'
+    ].join(' ').delete("\n")
+  end
+ 
   def get_service(client)
     client.discovered_api('calendar', 'v3')  
   end
