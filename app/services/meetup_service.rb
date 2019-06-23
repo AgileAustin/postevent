@@ -3,11 +3,34 @@ class MeetupService < Service
   include HTTParty
   @@base_uri = 'http://api.meetup.com/'
   
+  def get_authorization_url(redirect_url)
+  	"https://secure.meetup.com/oauth2/authorize?client_id=#{Rails.configuration.meetup_consumer_key}&response_type=code&redirect_uri=#{redirect_url}"
+  end
+ 
+  def authorize(code, redirect_url)
+  	result = self.class.post("https://secure.meetup.com/oauth2/access", {
+  		body: "client_id=#{Rails.configuration.meetup_consumer_key}&client_secret=#{Rails.configuration.meetup_consumer_secret}&grant_type=authorization_code&redirect_uri=#{redirect_url}&code=#{code}"
+  		headers: {
+  			'Content-Type' => 'application/x-www-form-urlencoded',
+  			'charset' => 'utf-8'
+  		}
+  	)
+  	puts result
+  	if result['error']
+  		false
+  	else
+  		system = System.take
+  		system.meetup_access_token = result['access_token']
+  		system.meetup_refresh_token = result['refresh_token']
+  		system.save()
+  		true
+  	end
+  end
+  
   def create_venue(location)
     if is_enabled
       params = get_location_params(location)
-      result = self.class.post(@@base_uri + Rails.configuration.meetup_group_urlname + '/venues', params)
-      puts result
+      result = post(@@base_uri + Rails.configuration.meetup_group_urlname + "/venues", params)
       if result['errors']
         raise result['errors'][0]['message']
       end
@@ -29,8 +52,8 @@ class MeetupService < Service
         create_venue(event.location)
       end
       params = get_event_params(event)
-      result = self.class.post(@@base_uri + '2/event', params)
-      puts result
+      params['self_rsvp'] = false
+      result = post(@@base_uri + Rails.configuration.meetup_group_urlname + '/events', params)
       if result['details']
         raise result['details']
       end
@@ -54,7 +77,7 @@ class MeetupService < Service
         if announce
 	        params[:query]['announce'] = true
 	    end
-        result = self.class.post(@@base_uri + '2/event/' + event.meetup_id, params)
+        result = patch(@@base_uri + Rails.configuration.meetup_group_urlname + '/events/' + event.meetup_id, params)
         if result['details']
           raise result['details']
         end
@@ -63,6 +86,51 @@ class MeetupService < Service
   end
   
 private
+ 
+  def post(url, params)
+    result = self.class.post(url, params)
+    puts result
+    if result.code == 401
+      if refresh_token()
+        result = self.class.patch(url, params)
+        puts result
+      end
+    end
+    result
+f  end
+ 
+  def patch(url, params)
+    result = self.class.patch(url, params)
+    puts result
+    if result.code == 401
+      if refresh_token()
+        result = self.class.patch(url, params)
+        puts result
+      end
+    end
+    result
+  end
+ 
+  def refresh_token()
+    system = System.take
+  	refresh_token = system.meetup_refresh_token
+  	result = self.class.post("https://secure.meetup.com/oauth2/access", {
+  		body: "client_id=#{Rails.configuration.meetup_consumer_key}&client_secret=#{Rails.configuration.meetup_consumer_secret}&grant_type=refresh_token&refresh_token=#{refresh_token}"
+  		headers: {
+  			'Content-Type' => 'application/x-www-form-urlencoded',
+  			'charset' => 'utf-8'
+  		}
+  	)
+  	puts result
+  	if result['error']
+  		false
+  	else
+  		system.meetup_access_token = result['access_token']
+  		system.meetup_refresh_token = result['refresh_token']
+  		system.save()
+  		true
+  	end
+  end
 
   def is_enabled
     Rails.configuration.meetup_apikey != nil
@@ -71,7 +139,6 @@ private
   def get_location_params(location)
     params = get_params
     params[:query] = {
-      'key' => Rails.configuration.meetup_apikey,
       'address_1' => location.address,
       'address_2' => location.address2,
       'city' => location.city,
@@ -87,14 +154,10 @@ private
     offset = Time.use_zone(Rails.configuration.timezone) {event.date.to_time.in_time_zone.dst?} ? Rails.configuration.timezone_offset_dst : Rails.configuration.timezone_offset
     params = get_params
     params[:query] = {
-      'key' => Rails.configuration.meetup_apikey,
-      'group_id' => Rails.configuration.meetup_group_id,
-      'group_urlname' => Rails.configuration.meetup_group_urlname,
       'name' => event.group_title,
       'description' => get_event_details(event),
       'venue_id' => event.location.meetup_id,
       'rsvp_limit' => event.capacity,
-      'waitlisting' => 'auto',
       'guest_limit' => 0,
       'time' => DateTime.new(event.date.year, event.date.month, event.date.day, event.start.hour, event.start.min, event.start.sec, offset).strftime('%Q').to_i,
       'duration' => (event.end - event.start).to_i * 1000
@@ -156,7 +219,8 @@ private
     {
         :headers => {
             'Content-Type' => 'application/json',
-            'Accept' => 'application/json'
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' + System.take.meetup_access_token
         }
     }
   end

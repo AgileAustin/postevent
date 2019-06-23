@@ -52,9 +52,7 @@ Postevent::Application.configure do
   config.eventbrite_token = nil
   config.eventbrite_organizer_id = nil
   config.meetup_apikey = nil
-  config.meetup_group_id = nil
   config.meetup_group_urlname = nil
-  config.meetup_consumer_key = nil
   config.community_email = nil
   config.twitter_consumer_key = nil
   config.twitter_consumer_secret = nil
