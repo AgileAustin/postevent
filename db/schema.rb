@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20190116030342) do
+ActiveRecord::Schema.define(:version => 20190622164700) do
 
   create_table "associations", :force => true do |t|
     t.string   "user_id"
@@ -35,8 +35,8 @@ ActiveRecord::Schema.define(:version => 20190116030342) do
     t.string   "speaker"
     t.string   "speaker_bio"
     t.string   "special_instructions"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
     t.string   "eventbrite_id"
     t.string   "ticket_eventbrite_id"
     t.string   "google_id"
@@ -48,8 +48,8 @@ ActiveRecord::Schema.define(:version => 20190116030342) do
     t.string   "name"
     t.string   "address"
     t.text     "directions"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
     t.string   "eventbrite_id"
     t.string   "city"
     t.string   "state",         :limit => 2
@@ -62,17 +62,20 @@ ActiveRecord::Schema.define(:version => 20190116030342) do
     t.string   "name"
     t.string   "email"
     t.string   "google_group"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  create_table "systems", :force => true do |t|
+    t.string "meetup_access_token"
+    t.string "meetup_refresh_token"
   end
 
   create_table "users", :force => true do |t|
     t.string   "email"
     t.string   "password_digest"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "linkedin_token"
-    t.datetime "linkedin_token_expiration"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.string   "slack_user_id"
   end
 

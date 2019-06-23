@@ -20,7 +20,7 @@ class EventsController < ResourceController
           CommunityMailer.event_submitted(@resource).deliver
         end
         TwitterService.new.create(@resource, errors)
-        LinkedinService.new.create(@resource, errors, current_user)
+#        LinkedinService.new.create(@resource, errors, current_user)
       end
       if !errors.empty?
         ErrorMailer.errors(errors, "Posting").deliver
@@ -47,7 +47,7 @@ class EventsController < ResourceController
           CommunityMailer.event_submitted(@resource, {:prefix => "Updated: "}).deliver 
         end
         TwitterService.new.update(@resource, errors)
-        LinkedinService.new.update(@resource, errors, current_user)
+#        LinkedinService.new.update(@resource, errors, current_user)
       end
       if !errors.empty?
         ErrorMailer.errors(errors, "Updating").deliver
@@ -75,9 +75,9 @@ private
 
   def warn_not_authenticated
     logger.debug("events#warn_not_authenticated user id #{session[:user_id]}")
-    if Rails.configuration.linkedin_group_id != nil && !current_user.authorized_for_linkedin
-      flash[:unauthorized] = 'Warning: You have not authorized Postevent to post to LinkedIn.'
-    end
+#    if Rails.configuration.linkedin_group_id != nil && !current_user.authorized_for_linkedin
+#      flash[:unauthorized] = 'Warning: You have not authorized Postevent to post to LinkedIn.'
+#    end
   end
   
   def created_message

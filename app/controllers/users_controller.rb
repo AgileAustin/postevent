@@ -25,10 +25,10 @@ class UsersController < ResourceController
     redirect_to :action => "index"
   end
 
-# LinkedIn authorization
+# Oauth authorization
 
   def authorize
-    if Rails.configuration.linkedin_group_id == nil || current_user.authorized_for_linkedin
+    if Rails.configuration.meetup_consumer_key == nil || System.take.meetup_access_token
       logger.debug("User id in user#authorize #{session[:user_id]}")
       redirect_to START_URI
     else

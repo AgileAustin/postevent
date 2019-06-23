@@ -1,22 +1,27 @@
-<h1>Events</h1>
-<div style="position: relative;top: -15px"><%= link_to 'New Event', new_event_path %></div>
-<table>
-  <tr>
-    <th>Date</th>
-    <th>Start Time</th>
-    <th>SIG</th>
-    <th>Title</th>
-    <th>Location</th>
-    <th/>
-  </tr>
-<% @resources.sort_by{ |obj| obj.date }.reverse.each do |resource| %>
-  <tr>
-    <td><%= resource.date %></td>
-    <td><%= resource.start.hour %>:<%= (resource.start.min < 10 ? "0" : "") + resource.start.min.to_s %></td>
-    <td><%= resource.sig.name %></td>
-    <td><%= resource.title %></td>
-    <td><%= resource.location.name %></td>
-    <td><%= link_to 'Edit', edit_event_path(resource) %></td>
-  </tr>
-<% end %>
-</table>
+<div class="list">
+	<h1>
+		Events
+		<%= link_to '<i title="New Event" class="fas fa-plus"></i>'.html_safe, new_event_path %>
+	</h1>
+	<table>
+	  <tr>
+	    <th>Date</th>
+	    <th>Start Time</th>
+	    <th>SIG</th>
+	    <th>Title</th>
+	    <th>Location</th>
+	  </tr>
+	<% @resources.sort_by{ |obj| obj.date }.reverse.each do |resource| %>
+	  <tr>
+	    <td><%= resource.date %></td>
+	    <td><%= resource.start.hour %>:<%= (resource.start.min < 10 ? "0" : "") + resource.start.min.to_s %></td>
+	    <td><%= resource.sig.name %></td>
+	    <td>
+		    <%= resource.title %>
+		    <%= link_to '<i title="Edit" class="fas fa-plus"></i>'.html_safe, edit_event_path(resource) %>
+	    </td>
+	    <td><%= resource.location.name %></td>
+	  </tr>
+	<% end %>
+	</table>
+</div>

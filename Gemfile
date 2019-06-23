@@ -1,19 +1,19 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.21' # was 3.2.5
+gem 'rails', '3.2.22.5'
 gem 'grape'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'mysql2', '0.3.18'
+gem 'mysql2', '~> 0.3.10'
 gem 'bcrypt-ruby', '3.0.0'
 gem 'httparty'
 gem 'twitter', '4.8.1'
 gem 'google-api-client', '0.8.7'
-gem 'linkedin-oauth2'
-gem 'execjs'
-gem 'therubyracer'
+# gem 'linkedin-oauth2'
+# gem 'execjs'
+# gem 'therubyracer'
 gem 'thin'
 
 # For nonce

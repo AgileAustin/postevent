@@ -1,15 +1,21 @@
-<h1>Locations</h1>
-<div style="position: relative;top: -15px"><%= link_to 'New Location', new_location_path %></div>
-<table>
-  <tr>
-    <th>Name</th>
-    <th></th>
-  </tr>
- 
-<% @resources.each do |resource| %>
-  <tr>
-    <td><%= resource.name %></td>
-    <td><%= link_to 'Edit', edit_location_path(resource) %> <%= link_to 'Delete', resource, :confirm => 'Are you sure?', :method => :delete if (not resource.events || resource.events.empty?) %></td>
-  </tr>
-<% end %>
-</table>
+<div class="list">
+	<h1>
+		Locations
+		<%= link_to '<i title="New Location" class="fas fa-plus"></i>'.html_safe, new_location_path %>
+	</h1>
+	<table>
+	  <tr>
+	    <th>Name</th>
+	  </tr>
+	 
+	<% @resources.each do |resource| %>
+	  <tr>
+	    <td>
+		    <%= resource.name %>
+		    <%= link_to '<i title="Edit" class="fas fa-edit"></i>'.html_safe, edit_location_path(resource) %>
+		    <%= link_to '<i title="Delete" class="fas fa-trash-alt"></i>'.html_safe, resource, :confirm => 'Are you sure?', :method => :delete if (resource.events == nil || resource.events.empty?) %>
+	    </td>
+	  </tr>
+	<% end %>
+	</table>
+</div>

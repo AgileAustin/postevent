@@ -1,4 +1,7 @@
-<h1>Log in</h1>
+<div class="edit-screen-background">
+<div class="edit-screen">
+<%= image_tag("AgileAustinLogo.png", :alt => "Agile Austin", :style => "margin-top: 30px") %>
+<h1 style="margin-top: 10px">PostEvent</h1>
 
 <%= form_tag session_path do %>
   <p>
@@ -12,5 +15,7 @@
   <p>
     <%= hidden_field_tag :nonce, session[:nonce] %>
   </p>
-  <p class="button"><%= submit_tag "Log in" %></p>
+  <p class="button"><%= submit_tag "Log in", :style => "margin-top: 10px" %></p>
 <% end %>
+</div>
+</div>

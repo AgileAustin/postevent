@@ -1,4 +1,16 @@
-<h1>Add User</h1>
+<% if !current_user %>
+	<div class="edit-screen-background">
+		<div class="edit-screen">
+			<%= image_tag("AgileAustinLogo.png", :alt => "Agile Austin", :style => "margin-top: 30px") %>
+			<h1 style="margin-top: 10px">PostEvent</h1>
+			<h3>Add Initial User</h3>
+<% else %>
+	<div class="form">
+		<h1>Add User</h1>
+<% end %>
+<div class="description">
+	New user will be emailed a temporary password.
+</div>
 
 <%= form_for @resource do |f| %>
   <% if @resource.errors.any? %>
@@ -16,6 +28,13 @@
     <%= f.text_field :email, :size => 40, :maxlength => 255 %>
   </p>
   <p class="button"><%= f.submit %></p>
+<% end %>
+
+<% if !current_user %>
+		</div>
+	</div>
+<% else %>
+	</div>
 <% end %>
 
 <script type="text/javascript">
