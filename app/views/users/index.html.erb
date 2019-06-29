@@ -1,7 +1,7 @@
 <div class="list">
 	<h1>
 		Users
-		<%= link_to '<i title="New User" class="fas fa-plus"></i>'.html_safe, new_user_path %>
+		<%= link_to '<i title="New User" class="fa fa-plus"></i>'.html_safe, new_user_path %>
 	</h1>
 	<table>
 	  <tr>
@@ -11,9 +11,9 @@
 	  <tr>
 	    <td>
 		    <%= resource.email %>
-		    <%= link_to '<i title="Edit" class="fas fa-edit"></i>'.html_safe, edit_user_path(resource) %>
-		    <%= link_to '<i title="Delete" class="fas fa-trash-alt"></i>'.html_safe, resource, :confirm => 'Are you sure?', :method => :delete if resource != current_user && (resource.events == nil || resource.events.empty?) %>
-		    <%= link_to '<i title="Reset Password" class="fas fa-key"></i>'.html_safe, reset_password_url(:id => resource.id), :confirm => 'Are you sure?' if resource != current_user %>
+		    <%= link_to '<i title="Edit" class="fa fa-edit"></i>'.html_safe, edit_user_path(resource) %>
+		    <%= link_to '<i title="Delete" class="fa fa-trash"></i>'.html_safe, resource, :confirm => 'Are you sure?', :method => :delete if resource != current_user && (resource.events == nil || resource.events.empty?) %>
+		    <%= link_to '<i title="Reset Password" class="fa fa-key"></i>'.html_safe, reset_password_url(:id => resource.id), :confirm => 'Are you sure?' if resource != current_user %>
 	    </td>
 	  </tr>
 	<% end %>

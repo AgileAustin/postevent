@@ -4,20 +4,10 @@
   <title>PostEvent</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
-  <link href="/fontawesome-free-5.9.0-web/css/all.css" rel="stylesheet">
-  <script src="https://kit.fontawesome.com/2ffc2ec485.js"></script>
   <%= csrf_meta_tags %>
   <link rel="shortcut icon" type="image/png" href="/assets/favicon.png"/>
 </head>
 <body>
-<% flash.each do |name, msg| %>
-  <% if name == :unauthorized %>
-    <span style="color: red"><%= msg %>  To authorize, please go <a href="<%=Rails.configuration.post_url%>/authorize">here</a>.</span>
-  <% else %>
-    <%= content_tag :div, msg, :id => "flash_#{name}" %>
-  <% end %>
-<% end %>
-
 <% if current_user %>
 	<div class="logo">
 		<%= image_tag("AgileAustinLogo.png", :alt => "Agile Austin") %>
@@ -32,6 +22,19 @@
 	    <div class="user-info"><%= link_to current_user.email, edit_user_path(current_user)  %></div>
 	</div>
 <% end %>
+
+<% if !flash.empty? %>
+	<div class="flash">
+		<% flash.each do |name, msg| %>
+		  <% if name == :unauthorized %>
+		    <span style="color: red"><%= msg %>  To authorize, please go <a href="<%=Rails.configuration.post_url%>/authorize">here</a>.</span>
+		  <% else %>
+		    <%= content_tag :div, msg, :id => "flash_#{name}" %>
+		  <% end %>
+		<% end %>
+	</div>
+<% end %>
+
 <%= yield %>
 </body>
 </html>

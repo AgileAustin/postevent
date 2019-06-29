@@ -81,8 +81,9 @@ Postevent::Application.configure do
   config.default_country = "US"
   config.eventbrite_token = nil
   config.eventbrite_organizer_id = nil
-  config.meetup_apikey = nil
   config.meetup_group_urlname = nil
+  config.meetup_consumer_key = nil
+  config.meetup_consumer_secret = nil
   config.community_email = nil
   config.twitter_consumer_key = nil
   config.twitter_consumer_secret = nil
@@ -98,7 +99,4 @@ Postevent::Application.configure do
   config.wordpress_old_base_url = nil
   config.wordpress_base_url = nil # example http://www.example.com/api/
   config.wordpress_category = nil
-  config.linkedin_consumer_key = nil
-  config.linkedin_consumer_secret = nil
-  config.linkedin_group_id = nil
 end

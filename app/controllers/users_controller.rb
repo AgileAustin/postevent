@@ -28,7 +28,7 @@ class UsersController < ResourceController
 # Oauth authorization
 
   def authorize
-    if Rails.configuration.meetup_consumer_key == nil || System.take.meetup_access_token
+    if Rails.configuration.meetup_consumer_key == nil || System.first.meetup_access_token
       logger.debug("User id in user#authorize #{session[:user_id]}")
       redirect_to START_URI
 	else

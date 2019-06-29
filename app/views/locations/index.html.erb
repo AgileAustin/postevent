@@ -1,7 +1,7 @@
 <div class="list">
 	<h1>
 		Locations
-		<%= link_to '<i title="New Location" class="fas fa-plus"></i>'.html_safe, new_location_path %>
+		<%= link_to '<i title="New Location" class="fa fa-plus"></i>'.html_safe, new_location_path %>
 	</h1>
 	<table>
 	  <tr>
@@ -12,8 +12,8 @@
 	  <tr>
 	    <td>
 		    <%= resource.name %>
-		    <%= link_to '<i title="Edit" class="fas fa-edit"></i>'.html_safe, edit_location_path(resource) %>
-		    <%= link_to '<i title="Delete" class="fas fa-trash-alt"></i>'.html_safe, resource, :confirm => 'Are you sure?', :method => :delete if (resource.events == nil || resource.events.empty?) %>
+		    <%= link_to '<i title="Edit" class="fa fa-edit"></i>'.html_safe, edit_location_path(resource) %>
+		    <%= link_to '<i title="Delete" class="fa fa-trash"></i>'.html_safe, resource, :confirm => 'Are you sure?', :method => :delete if (resource.events == nil || resource.events.empty?) %>
 	    </td>
 	  </tr>
 	<% end %>

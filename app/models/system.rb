@@ -1,2 +1,2 @@
-class Systems < ActiveRecord::Base
+class System < ActiveRecord::Base
 end

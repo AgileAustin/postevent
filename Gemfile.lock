@@ -67,6 +67,8 @@ GEM
     ffi (1.11.1)
     ffi (1.11.1-x64-mingw32)
     ffi (1.11.1-x86-mingw32)
+    font-awesome-rails (4.7.0.5)
+      railties (>= 3.2, < 6.1)
     google-api-client (0.8.7)
       activesupport (>= 3.2, < 5.0)
       addressable (~> 2.3)
@@ -211,6 +213,7 @@ PLATFORMS
 DEPENDENCIES
   bcrypt-ruby (= 3.0.0)
   coffee-rails
+  font-awesome-rails
   google-api-client (= 0.8.7)
   grape
   httparty

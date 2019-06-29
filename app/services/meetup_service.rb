@@ -1,25 +1,25 @@
 class MeetupService < Service
   require "./app/utils/formatter.rb"
   include HTTParty
-  @@base_uri = 'http://api.meetup.com/'
+  @@base_uri = 'https://api.meetup.com/'
   
   def get_authorization_url(redirect_url)
-  	"https://secure.meetup.com/oauth2/authorize?client_id=#{Rails.configuration.meetup_consumer_key}&response_type=code&redirect_uri=#{redirect_url}"
+  	"https://secure.meetup.com/oauth2/authorize?client_id=#{Rails.configuration.meetup_consumer_key}&response_type=code&redirect_uri=#{redirect_url}&scope=event_management"
   end
  
   def authorize(code, redirect_url)
   	result = self.class.post("https://secure.meetup.com/oauth2/access", {
-  		body: "client_id=#{Rails.configuration.meetup_consumer_key}&client_secret=#{Rails.configuration.meetup_consumer_secret}&grant_type=authorization_code&redirect_uri=#{redirect_url}&code=#{code}"
+  		body: "client_id=#{Rails.configuration.meetup_consumer_key}&client_secret=#{Rails.configuration.meetup_consumer_secret}&grant_type=authorization_code&redirect_uri=#{redirect_url}&code=#{code}",
   		headers: {
   			'Content-Type' => 'application/x-www-form-urlencoded',
   			'charset' => 'utf-8'
   		}
-  	)
+  	})
   	puts result
   	if result['error']
   		false
   	else
-  		system = System.take
+  		system = System.first
   		system.meetup_access_token = result['access_token']
   		system.meetup_refresh_token = result['refresh_token']
   		system.save()
@@ -32,9 +32,14 @@ class MeetupService < Service
       params = get_location_params(location)
       result = post(@@base_uri + Rails.configuration.meetup_group_urlname + "/venues", params)
       if result['errors']
-        raise result['errors'][0]['message']
+      	if result['errors'].length == 1 && result['errors'][0]['message'] == 'potential matches'
+          location.meetup_id = result['errors'][0]['potential_matches'][0]['id']
+     	else
+          raise result['errors'][0]['message']
+        end
+      else
+        location.meetup_id = result['id']
       end
-      location.meetup_id = result['id']
       location.save
     end
   end
@@ -97,7 +102,7 @@ private
       end
     end
     result
-f  end
+  end
  
   def patch(url, params)
     result = self.class.patch(url, params)
@@ -112,15 +117,15 @@ f  end
   end
  
   def refresh_token()
-    system = System.take
+    system = System.first
   	refresh_token = system.meetup_refresh_token
   	result = self.class.post("https://secure.meetup.com/oauth2/access", {
-  		body: "client_id=#{Rails.configuration.meetup_consumer_key}&client_secret=#{Rails.configuration.meetup_consumer_secret}&grant_type=refresh_token&refresh_token=#{refresh_token}"
+  		body: "client_id=#{Rails.configuration.meetup_consumer_key}&client_secret=#{Rails.configuration.meetup_consumer_secret}&grant_type=refresh_token&refresh_token=#{refresh_token}",
   		headers: {
   			'Content-Type' => 'application/x-www-form-urlencoded',
   			'charset' => 'utf-8'
   		}
-  	)
+  	})
   	puts result
   	if result['error']
   		false
@@ -133,7 +138,7 @@ f  end
   end
 
   def is_enabled
-    Rails.configuration.meetup_apikey != nil
+    Rails.configuration.meetup_consumer_key != nil
   end
 
   def get_location_params(location)
@@ -220,7 +225,7 @@ f  end
         :headers => {
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' + System.take.meetup_access_token
+            'Authorization' => 'Bearer ' + System.first.meetup_access_token
         }
     }
   end

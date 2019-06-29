@@ -10,6 +10,7 @@
  *
  *= require_self
  *= require_tree .
+ *= require font-awesome
  */
 
 html {
@@ -162,11 +163,16 @@ input {
 	text-align: left;
 }
 
-.fas {
+.fa {
 	color: black;
 	margin-left: 5px;
 }
 
 .sr-only {
 	display: none;
+}
+
+.flash {
+	margin-top: 15px;
+    margin-left: 20px;
 }

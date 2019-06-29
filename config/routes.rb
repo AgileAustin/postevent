@@ -4,7 +4,6 @@ Postevent::Application.routes.draw do
   resources :events
   resources :sigs
   resources :locations
-  resources :linkedin
 
   root :to => "users#authorize"
   match 'logout', :to => 'sessions#destroy', :as => "logout"

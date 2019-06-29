@@ -1,7 +1,7 @@
 <div class="list">
 	<h1>
 		Events
-		<%= link_to '<i title="New Event" class="fas fa-plus"></i>'.html_safe, new_event_path %>
+		<%= link_to '<i title="New Event" class="fa fa-plus"></i>'.html_safe, new_event_path %>
 	</h1>
 	<table>
 	  <tr>
@@ -18,7 +18,7 @@
 	    <td><%= resource.sig.name %></td>
 	    <td>
 		    <%= resource.title %>
-		    <%= link_to '<i title="Edit" class="fas fa-plus"></i>'.html_safe, edit_event_path(resource) %>
+		    <%= link_to '<i title="Edit" class="fa fa-edit"></i>'.html_safe, edit_event_path(resource) %>
 	    </td>
 	    <td><%= resource.location.name %></td>
 	  </tr>

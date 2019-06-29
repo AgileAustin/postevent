@@ -7,6 +7,7 @@ gem 'bcrypt-ruby', '3.0.0'
 gem 'httparty'
 gem 'twitter', '4.8.1'
 gem 'google-api-client', '0.8.7'
+gem 'font-awesome-rails'
 gem 'thin'
 
 # For nonce

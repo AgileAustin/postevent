@@ -20,7 +20,6 @@ class EventsController < ResourceController
           CommunityMailer.event_submitted(@resource).deliver
         end
         TwitterService.new.create(@resource, errors)
-#        LinkedinService.new.create(@resource, errors, current_user)
       end
       if !errors.empty?
         ErrorMailer.errors(errors, "Posting").deliver
@@ -47,7 +46,6 @@ class EventsController < ResourceController
           CommunityMailer.event_submitted(@resource, {:prefix => "Updated: "}).deliver 
         end
         TwitterService.new.update(@resource, errors)
-#        LinkedinService.new.update(@resource, errors, current_user)
       end
       if !errors.empty?
         ErrorMailer.errors(errors, "Updating").deliver
@@ -75,16 +73,16 @@ private
 
   def warn_not_authenticated
     logger.debug("events#warn_not_authenticated user id #{session[:user_id]}")
-#    if Rails.configuration.linkedin_group_id != nil && !current_user.authorized_for_linkedin
-#      flash[:unauthorized] = 'Warning: You have not authorized Postevent to post to LinkedIn.'
-#    end
+    if Rails.configuration.meetup_consumer_key != nil && !System.first.meetup_access_token
+      flash[:unauthorized] = 'Warning: You have not authorized Postevent to post to MeetUp.'
+    end
   end
   
   def created_message
-    super + " Posted to Meetup" + (params[:update_mailing_list] ? ", Google calendar, mailing list and Twitter." : " and Google calendar.")
+    super + " Posted to Meetup" + (params[:update_mailing_list] ? ", Google calendar, Twitter and mailing list." : " and Google calendar.")
   end
   
   def updated_message
-    super + " Updated on Meetup and Google calendar." + (params[:update_mailing_list] ? " Reposted to mailing list and Twitter." : "")
+    super + " Updated on Meetup and Google calendar." + (params[:update_mailing_list] ? " Reposted to Twitter and mailing list." : "")
   end
 end
