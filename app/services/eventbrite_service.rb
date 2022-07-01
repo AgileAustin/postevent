@@ -124,6 +124,7 @@ private
         'capacity' => event.capacity,
         'listed' => true,
         'shareable' => true,
+        'invite_only' => false,
         'organizer_id' => Rails.configuration.eventbrite_organizer_id
       }
     }.to_json
