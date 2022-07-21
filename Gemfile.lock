@@ -196,7 +196,7 @@ GEM
       faraday (~> 0.8, < 0.10)
       multi_json (~> 1.0)
       simple_oauth (~> 0.2)
-    tzinfo (0.3.55)
+    tzinfo (0.3.61)
     uglifier (4.1.20)
       execjs (>= 0.3.0, < 3)
     virtus (1.0.5)
